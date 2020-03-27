@@ -53,6 +53,24 @@ public class SwingPaint {
         // create controls to apply colors and call clear feature
         JPanel controls = new JPanel();
 
+        //create panel
+        createPanel(controls);
+
+        // add to content pane
+        content.add(controls, BorderLayout.NORTH);
+
+        frame.setSize(800, 600);
+        // can close frame
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // show the swing paint result
+        frame.setVisible(true);
+
+        // Now you can try our Swing Paint !!! Enjoy :D
+    }
+
+    private void createPanel(JPanel controls) {
+        
+        // create controls to apply colors and call clear feature
         clearBtn = new JButton("Clear");
         clearBtn.addActionListener(actionListener);
         blackBtn = new JButton("Black");
@@ -76,17 +94,6 @@ public class SwingPaint {
         controls.add(magentaBtn);
         controls.add(clearBtn);
         controls.add(squareBtn);
-
-        // add to content pane
-        content.add(controls, BorderLayout.NORTH);
-
-        frame.setSize(800, 600);
-        // can close frame
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // show the swing paint result
-        frame.setVisible(true);
-
-        // Now you can try our Swing Paint !!! Enjoy :D
     }
 
 }

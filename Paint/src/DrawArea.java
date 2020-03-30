@@ -12,12 +12,7 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JComponent;
 
-/**
- * Component for drawing !
- *
- * @author sylsau
- *
- */
+
 public class DrawArea extends JComponent {
 
     // Image in which we're going to draw
@@ -40,20 +35,20 @@ public class DrawArea extends JComponent {
                 // save coord x,y when mouse is pressed
                 mPressX = e.getX();
                 mPressY = e.getY();
-                System.out.println("Mouse Pressed at " +mPressX +mPressY);
+                //System.out.println("Mouse Pressed at " +mPressX +mPressY);
                 
             }
 
             public void mouseReleased(MouseEvent e) {
                 mReleaseX = e.getX();
                 mReleaseY = e.getY();
-                System.out.println("Mouse Released at "+mReleaseX+mReleaseY);
+                //System.out.println("Mouse Released at "+mReleaseX+mReleaseY);
             }
 
             public void mouseClicked(MouseEvent e) {
                 mClickedX = e.getX();
                 mClickedY = e.getY();
-                System.out.println("Mouse Clicked"+mClickedX+mClickedY);
+                //System.out.println("Mouse Clicked"+mClickedX+mClickedY);
             }
         });
 
@@ -62,7 +57,7 @@ public class DrawArea extends JComponent {
                 // coord x,y when drag mouse
                 mDragX = e.getX();
                 mDragY = e.getY();
-                 System.out.println("Mouse drag "+mDragX+mDragY);
+                //System.out.println("Mouse drag "+mDragX+mDragY);
                 /* draw line method
                 if (g2 != null) {
                     // draw line if g2 context not null
@@ -78,7 +73,7 @@ public class DrawArea extends JComponent {
             public void mouseMoved(MouseEvent e) {
                 mMovedX = e.getX();
                 mMovedY = e.getY();
-                System.out.println("Mouse moved "+mMovedX+mMovedY);
+                //System.out.println("Mouse moved "+mMovedX+mMovedY);
             }
         });
     }
@@ -106,30 +101,15 @@ public class DrawArea extends JComponent {
         repaint();
     }
 
-    public void red() {
-        // apply red color on g2 context
-        g2.setPaint(Color.red);
-    }
-
     public void black() {
+        // apply red color on g2 context
         g2.setPaint(Color.black);
     }
 
-    public void magenta() {
-        g2.setPaint(Color.magenta);
-    }
-
-    public void green() {
-        g2.setPaint(Color.green);
-    }
-
-    public void blue() {
-        g2.setPaint(Color.blue);
-    }
-
-    //implement methods using the mouse actions.
+    //implement methods using the mouse 
     void square() {
         System.out.println("entrou");
+        Implementation.square();
     }
 
 }

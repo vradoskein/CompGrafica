@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,11 +17,10 @@ public class SwingPaint {
     DrawArea drawArea;
     ActionListener actionListener = new ActionListener() {
 
+        //add the buttons
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == clearBtn) {
                 drawArea.clear();
-            } else if (e.getSource() == blackBtn) {
-                drawArea.black();
             } else if (e.getSource() == squareBtn) {
                 drawArea.square();
             }
@@ -45,12 +45,17 @@ public class SwingPaint {
 
         // create controls to apply colors and call clear feature
         JPanel controls = new JPanel();
+        JPanel controls2 = new JPanel();
+
+        controls2.setLayout(new BoxLayout(controls2, BoxLayout.Y_AXIS));
 
         //create panel
         createPanel(controls);
+        createPanel2(controls2);
 
         // add to content pane
         content.add(controls, BorderLayout.NORTH);
+        content.add(controls2, BorderLayout.WEST);
 
         frame.setSize(1600, 600);
         // can close frame
@@ -62,19 +67,28 @@ public class SwingPaint {
     }
 
     private void createPanel(JPanel controls) {
+
+        // create controls to apply colors 
+        /*saveBtn = new JButton("Cor1");
+        saveBtn.addActionListener(actionListener);
+        openBtn = new JButton("Cor2");
+        openBtn.addActionListener(actionListener);
         
-        // create controls to apply colors and call clear feature
+        // add to panel
+        controls.add(saveBtn);
+        controls.add(openBtn);*/
+    }
+
+    private void createPanel2(JPanel controls) {
         saveBtn = new JButton("Save");
         saveBtn.addActionListener(actionListener);
         openBtn = new JButton("Open");
         openBtn.addActionListener(actionListener);
         clearBtn = new JButton("Clear");
         clearBtn.addActionListener(actionListener);
-        blackBtn = new JButton("Black");
-        blackBtn.addActionListener(actionListener);
-        squareBtn = new JButton("retângulo");
+        squareBtn = new JButton("Square");
         squareBtn.addActionListener(actionListener);
-        ddaBtn = new JButton("DDA");
+        ddaBtn = new JButton("DDA  ");
         ddaBtn.addActionListener(actionListener);
         bresenhamBtn = new JButton("Bresenham");
         bresenhamBtn.addActionListener(actionListener);
@@ -88,15 +102,11 @@ public class SwingPaint {
         escalaBtn.addActionListener(actionListener);
         reflexBtn = new JButton("Reflexao");
         reflexBtn.addActionListener(actionListener);
-        cohenBtn = new JButton(" Cohen-Sutherland");
+        cohenBtn = new JButton(" Cohen");
         cohenBtn.addActionListener(actionListener);
         floodBtn = new JButton("Flood Fill");
         floodBtn.addActionListener(actionListener);
-        
-        
-        
-        
-        // add to panel
+
         controls.add(saveBtn);
         controls.add(openBtn);
         controls.add(clearBtn);
@@ -110,7 +120,7 @@ public class SwingPaint {
         controls.add(reflexBtn);
         controls.add(cohenBtn);
         controls.add(floodBtn);
-        
+
     }
 
 }

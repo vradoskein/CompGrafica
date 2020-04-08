@@ -66,26 +66,54 @@ public class Implementation {
     public static void bresenham(Point p1, Point p2, Graphics2D g) {
         g.setStroke(new BasicStroke(5));
         g.setPaint(Color.black);
-        int dx, dy, p, const1, const2, x, y;
-        dx = Math.abs(p2.x - p1.x);
-        dy = Math.abs(p2.y - p1.y);
-        p = 2 * dy - dx;
-        const1 = 2 * dy;
-        const2 = 2 * (dy - dx);
+        int dx, dy, x, y, const1, const2, p, incrx, incry;
+        dx = p2.x - p1.x;
+        dy = p2.y - p1.y;
+        
+        if(dx >= 0) incrx = 1;
+        else{
+            incrx = -1; 
+            dx = -dx;
+        }
+        if(dy >= 0) incry = 1;
+        else{
+            incry = -1; 
+            dy = -dy;
+        }
+        
         x = p1.x; y = p1.y;
         g.drawLine(x, y, x, y);
-        while (x < p2.x) {
-            x = x + 1;
-            if (p < 0)
-                p += const1;
-            else {
-                p += const2; 
-                y++;
+        
+        if(dy < dx){
+            p = 2*dy - dx;
+            const1 = 2*dy;
+            const2 = 2*(dy-dx);
+            for(int i = 0; i < dx; i++){
+                x += incrx;
+                if(p < 0) p += const1;
+                else{
+                    y += incry;
+                    p += const2;
+                }
+                g.drawLine(x, y, x, y);
             }
-            g.drawLine(x, y, x, y);
+        } else {
+            p = 2*dx - dy;
+            const1 = 2*dx;
+            const2 = 2*(dx-dy);
+            for(int i = 0; i < dy; i++){
+                y += incry;
+                if(p < 0) p += const1;
+                else{
+                    x += incrx;
+                    p += const2;
+                }
+                g.drawLine(x, y, x, y);
+            }
         }
+        
     }
-
+    
     public static void circ() {
         //TODO
     }

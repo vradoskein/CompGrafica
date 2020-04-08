@@ -14,6 +14,8 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
 import javax.swing.event.MouseInputListener;
 
+import java.lang.Math;  // sqrt
+
 public class DrawArea extends JComponent implements MouseInputListener {
 
     // Image in which we're going to draw
@@ -79,46 +81,80 @@ public class DrawArea extends JComponent implements MouseInputListener {
     String getState() {
         return this.current_state;
     }
-    
+
     public void dot(MouseEvent e){
         System.out.println("dot");
         current_point = new Point(e.getX(), e.getY());
         Implementation.dot(current_point, g2);
     }
-    
+
     public void line(MouseEvent e, String c){
-        if (clicked) {
-            old_point = current_point;
-            current_point = new Point(e.getX(), e.getY());
-            System.out.println("x: " + current_point.x + " y: " + current_point.y);
-            if(c.equals("dda")){
-               Implementation.dda(old_point, current_point, g2); 
+            if (clicked) {
+                old_point = current_point;
+                current_point = new Point(e.getX(), e.getY());
+                System.out.println("x: " + current_point.x + " y: " + current_point.y);
+                if(c.equals("dda")){
+                   Implementation.dda(old_point, current_point, g2);
+                } else if(c.equals("bresenham")){
+                    Implementation.bresenham(old_point, current_point, g2);
+                } else if (c.equals("square")){
+                    Implementation.square(old_point, current_point, g2);
+                } else if (c.equals("circ")){
+                    int r = (int) Math.sqrt( Math.pow(old_point.x - current_point.x ,2) + Math.pow(old_point.y - current_point.y ,2) );
+                    Implementation.circ(old_point, r , g2);
+                }
+                clicked = false;
+            } else {
+                System.out.println(c);
+                current_point = new Point(e.getX(), e.getY());
+                System.out.println("x: " + current_point.x + " y: " + current_point.y);
+                if(!c.equals("circ"))Implementation.dot(current_point, g2); // coloca ponto inicial
+                clicked = true;
             }
-            else Implementation.bresenham(old_point, current_point, g2);
-            clicked = false;
-        } else {
-            System.out.println(c);
-            current_point = new Point(e.getX(), e.getY());
-            System.out.println("x: " + current_point.x + " y: " + current_point.y);
-            Implementation.dot(current_point, g2);
-            clicked = true;
         }
-    }
 
-    //metodos mouseListener
-    public void mouseClicked(MouseEvent e) {
-        switch (getState()) {
-            case "dot":
-                dot(e);
-                break;
-            case "dda": 
-            case "bresenham":
-                line(e, getState());
-                break;
+        public void trans(MouseEvent e){};
+        public void rot(MouseEvent e){};
+        public void escala(MouseEvent e){};
+        public void reflex(MouseEvent e){};
+        public void cohen(MouseEvent e){};
+        public void flood(MouseEvent e){};
+
+        //metodos mouseListener
+        public void mouseClicked(MouseEvent e) {
+            switch (getState()) {
+                case "dot":
+                    dot(e);
+                    break;
+                case "square":
+                case "dda":  //Nao eh erro
+                case "bresenham":
+                case "circ":
+                    line(e, getState());
+                    break;
+                case "trans":
+                    trans(e);
+                    break;
+                case "rot":
+                    rot(e);
+                    break;
+                case "escala":
+                    escala(e);
+                    break;
+                case "reflex":
+                    reflex(e);
+                    break;
+                case "cohen":
+                    cohen(e);
+                    break;
+                case "flood":
+                    flood(e);
+                    break;
+            }
+            repaint();
+
         }
-        repaint();
 
-    }
 
     public void mouseMoved(MouseEvent e) {
     }

@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,14 +12,17 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JComponent;
+import javax.swing.event.MouseInputListener;
 
-
-public class DrawArea extends JComponent {
+public class DrawArea extends JComponent implements MouseInputListener {
 
     // Image in which we're going to draw
     private Image image;
     // Graphics2D object ==> used to draw on
     private Graphics2D g2;
+    private Point current_point = null, old_point = null;
+    boolean clicked = false;
+
     // Mouse coordinates
     private int currentX, currentY, oldX, oldY;
     private int mPressX, mPressY;
@@ -26,56 +30,12 @@ public class DrawArea extends JComponent {
     private int mClickedX, mClickedY;
     private int mMovedX, mMovedY;
     private int mDragX, mDragY;
-    
+    private String current_state;
+
     public DrawArea() {
         setDoubleBuffered(false);
-
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                // save coord x,y when mouse is pressed
-                mPressX = e.getX();
-                mPressY = e.getY();
-                //System.out.println("Mouse Pressed at " +mPressX +mPressY);
-                
-            }
-
-            public void mouseReleased(MouseEvent e) {
-                mReleaseX = e.getX();
-                mReleaseY = e.getY();
-                //System.out.println("Mouse Released at "+mReleaseX+mReleaseY);
-            }
-
-            public void mouseClicked(MouseEvent e) {
-                mClickedX = e.getX();
-                mClickedY = e.getY();
-                //System.out.println("Mouse Clicked"+mClickedX+mClickedY);
-            }
-        });
-
-        addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                // coord x,y when drag mouse
-                mDragX = e.getX();
-                mDragY = e.getY();
-                //System.out.println("Mouse drag "+mDragX+mDragY);
-                /* draw line method
-                if (g2 != null) {
-                    // draw line if g2 context not null
-                    g2.drawLine(oldX, oldY, currentX, currentY);
-                    // refresh draw area to repaint
-                    repaint();
-                    // store current coords x,y as olds x,y
-                    oldX = currentX;
-                    oldY = currentY;
-                }*/
-            }
-
-            public void mouseMoved(MouseEvent e) {
-                mMovedX = e.getX();
-                mMovedY = e.getY();
-                //System.out.println("Mouse moved "+mMovedX+mMovedY);
-            }
-        });
+        addMouseListener(this);
+        addMouseMotionListener(this);
     }
 
     protected void paintComponent(Graphics g) {
@@ -90,6 +50,11 @@ public class DrawArea extends JComponent {
         }
 
         g.drawImage(image, 0, 0, null);
+
+        /*if(current_state == "dot" && point != null){
+            g.setColor(getForeground());
+            g.fillRect(point.x - 3, point.y - 3, 7, 7);
+        }*/
     }
 
     // now we create exposed methods
@@ -106,10 +71,72 @@ public class DrawArea extends JComponent {
         g2.setPaint(Color.black);
     }
 
-    //implement methods using the mouse 
-    void square() {
-        System.out.println("entrou");
-        Implementation.square();
+    //implement methods using the mouse
+    void setState(String state) {
+        this.current_state = state;
+    }
+
+    String getState() {
+        return this.current_state;
+    }
+    
+    public void dot(MouseEvent e){
+        System.out.println("dot");
+        current_point = new Point(e.getX(), e.getY());
+        Implementation.dot(current_point, g2);
+    }
+    
+    public void line(MouseEvent e, String c){
+        if (clicked) {
+            old_point = current_point;
+            current_point = new Point(e.getX(), e.getY());
+            System.out.println("x: " + current_point.x + " y: " + current_point.y);
+            if(c.equals("dda")){
+               Implementation.dda(old_point, current_point, g2); 
+            }
+            else Implementation.bresenham(old_point, current_point, g2);
+            clicked = false;
+        } else {
+            System.out.println(c);
+            current_point = new Point(e.getX(), e.getY());
+            System.out.println("x: " + current_point.x + " y: " + current_point.y);
+            Implementation.dot(current_point, g2);
+            clicked = true;
+        }
+    }
+
+    //metodos mouseListener
+    public void mouseClicked(MouseEvent e) {
+        switch (getState()) {
+            case "dot":
+                dot(e);
+                break;
+            case "dda": 
+            case "bresenham":
+                line(e, getState());
+                break;
+        }
+        repaint();
+
+    }
+
+    public void mouseMoved(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseDragged(MouseEvent e) {
+
     }
 
 }

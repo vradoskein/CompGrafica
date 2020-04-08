@@ -8,21 +8,46 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 public class SwingPaint {
 
     JButton clearBtn, blackBtn, floodBtn, saveBtn, openBtn;
-    JButton squareBtn, transBtn, rotBtn, escalaBtn, reflexBtn;
+    JButton squareBtn, dotBtn, transBtn, rotBtn, escalaBtn, reflexBtn;
     JButton ddaBtn, bresenhamBtn, circBtn, cohenBtn, liangBtn;
     DrawArea drawArea;
     ActionListener actionListener = new ActionListener() {
 
         //add the buttons
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == clearBtn) {
+            if (e.getSource() == saveBtn) {
+                drawArea.setState("save");
+            } else if (e.getSource() == openBtn) {
+                drawArea.setState("open");
+            } else if (e.getSource() == clearBtn) {
                 drawArea.clear();
             } else if (e.getSource() == squareBtn) {
-                drawArea.square();
+                drawArea.setState("square");
+            } else if (e.getSource() == ddaBtn) {
+                drawArea.setState("dda");
+            } else if (e.getSource() == bresenhamBtn) {
+                drawArea.setState("bresenham");
+            } else if (e.getSource() == circBtn) {
+                drawArea.setState("circ");
+            } else if (e.getSource() == transBtn) {
+                drawArea.setState("trans");
+            } else if (e.getSource() == rotBtn) {
+                drawArea.setState("rot");
+            } else if (e.getSource() == escalaBtn) {
+                drawArea.setState("escala");
+            } else if (e.getSource() == reflexBtn) {
+                drawArea.setState("reflex");
+            } else if (e.getSource() == cohenBtn) {
+                drawArea.setState("cohen");
+            } else if (e.getSource() == floodBtn) {
+                drawArea.setState("flood");
+            } else if(e.getSource() == dotBtn){
+                drawArea.setState("dot");
             }
         }
     };
@@ -43,6 +68,7 @@ public class SwingPaint {
         // add to content pane
         content.add(drawArea, BorderLayout.CENTER);
 
+
         // create controls to apply colors and call clear feature
         JPanel controls = new JPanel();
         JPanel controls2 = new JPanel();
@@ -50,12 +76,13 @@ public class SwingPaint {
         controls2.setLayout(new BoxLayout(controls2, BoxLayout.Y_AXIS));
 
         //create panel
-        createPanel(controls);
+        //createPanel(controls);
         createPanel2(controls2);
 
         // add to content pane
-        content.add(controls, BorderLayout.NORTH);
+        //content.add(controls, BorderLayout.NORTH);
         content.add(controls2, BorderLayout.WEST);
+
 
         frame.setSize(1600, 600);
         // can close frame
@@ -68,12 +95,12 @@ public class SwingPaint {
 
     private void createPanel(JPanel controls) {
 
-        // create controls to apply colors 
+        // create controls to apply colors
         /*saveBtn = new JButton("Cor1");
         saveBtn.addActionListener(actionListener);
         openBtn = new JButton("Cor2");
         openBtn.addActionListener(actionListener);
-        
+
         // add to panel
         controls.add(saveBtn);
         controls.add(openBtn);*/
@@ -86,6 +113,8 @@ public class SwingPaint {
         openBtn.addActionListener(actionListener);
         clearBtn = new JButton("Clear");
         clearBtn.addActionListener(actionListener);
+        dotBtn = new JButton("Ponto");
+        dotBtn.addActionListener(actionListener);
         squareBtn = new JButton("Square");
         squareBtn.addActionListener(actionListener);
         ddaBtn = new JButton("DDA  ");
@@ -110,6 +139,7 @@ public class SwingPaint {
         controls.add(saveBtn);
         controls.add(openBtn);
         controls.add(clearBtn);
+        controls.add(dotBtn);
         controls.add(squareBtn);
         controls.add(ddaBtn);
         controls.add(bresenhamBtn);

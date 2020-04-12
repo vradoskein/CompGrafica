@@ -1,8 +1,11 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 
 /*
  * Class for the algorithms
@@ -162,8 +165,38 @@ public class Implementation {
         }
     }
 
-    public static void trans() {
-        //TODO
+    /**
+    *   x = transalcao no eixo X
+    *   y = translacao no eixo Y
+    *   m = matrix de pixels da imagem
+    */
+    public static Image trans(int x, int y, int[][] m) {
+        int width = m[0].length; int height = m.length;
+        int[][]m2 = new int[height][width];
+
+        for(int i = 0; i < height; i++){
+          for(int j = 0; j < width; j++){ // else descarta o pixel
+            m2[i][j] = -1; // preencher a matriz de pixels com branco
+          }
+        }
+
+        for(int i = 0; i < height-y; i++){
+          for(int j = 0; j < width-x; j++){ // else descarta o pixel
+            m2[i+y][j+x] = m[i][j];
+          }
+        }
+
+        int px[] = new int[width*height];
+        int k = 0;
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                px[k++] = m2[i][j];
+            }
+        }
+
+        BufferedImage image = new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
+        image.setRGB(0, 0, width, height, px, 0, width);
+        return image;
     }
 
     public static void rot() {

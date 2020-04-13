@@ -129,7 +129,7 @@ public class SwingPaint {
         cohenBtn.addActionListener(actionListener);
         floodBtn = new JButton("Flood Fill");
         floodBtn.addActionListener(actionListener);
-        undoBtn = new JButton("Undo");
+        undoBtn = new JButton("Remove last modified");
         undoBtn.addActionListener(actionListener);
         
 

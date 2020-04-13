@@ -70,6 +70,12 @@ public class DrawArea extends JComponent implements MouseInputListener {
 
     // now we create exposed methods
     public void clear() {
+        objetos.clear();
+        num_objetos = 0;
+        clearCanvas();
+    }
+    
+    public void clearCanvas() {
         g2.setPaint(Color.white);
         // draw white on entire draw area to clear
         g2.fillRect(0, 0, getSize().width, getSize().height);
@@ -206,7 +212,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
     }
     
     public void redraw(){
-        clear();
+        clearCanvas();
         for(Objeto o : objetos){
             this.draw(o);
         }

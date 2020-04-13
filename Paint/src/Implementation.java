@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.util.ArrayList;
 
 /*
  * Class for the algorithms
@@ -17,9 +18,6 @@ import java.awt.image.WritableRaster;
  */
 public class Implementation {
 
-    public static void save() {
-        //TODO
-    }
 
     public static void dot(Point point, Graphics2D g) {
         g.setStroke(new BasicStroke(5));
@@ -180,9 +178,24 @@ public class Implementation {
           }
         }
 
-        for(int i = 0; i < height-y; i++){
-          for(int j = 0; j < width-x; j++){ // else descarta o pixel
-            m2[i+y][j+x] = m[i][j];
+        int yi, yf, xi, xf;
+        if(y >= 0){
+          yi = 0;
+          yf = y;
+        } else {
+          yi = 0-y;
+          yf = 0;
+        }
+        if(x >= 0){
+          xi = 0;
+          xf = x;
+        } else {
+          xi = 0-x;
+          xf = 0;
+        }
+        for(int i = yi; i < height-yf; i++){
+          for(int j = xi; j < width-xf; j++){ // else descarta o pixel
+            m2[i+yf][j+xf] = m[i][j];
           }
         }
 

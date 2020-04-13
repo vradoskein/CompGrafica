@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+import java.util.ArrayList;
 
 /*
  * Class for the algorithms
@@ -33,7 +35,9 @@ public class Implementation {
         //TODO
     }
 
-    public static void ret(Point p1, Point p2, Graphics2D g) {
+    public static void square(Point p1, Point p2, Graphics2D g) {
+        //TODO
+        System.out.println("This is a test");
         Point point1 = new Point(p1.x, p1.y);
         Point point2 = new Point(p1.x, p2.y);
         Point point3 = new Point(p2.x, p1.y);
@@ -164,7 +168,7 @@ public class Implementation {
     *   y = translacao no eixo Y
     *   m = matrix de pixels da imagem
     */
-    /*public static Image trans(int x, int y, int[][] m) {
+    public static Image trans(int x, int y, int[][] m) {
         int width = m[0].length; int height = m.length;
         int[][]m2 = new int[height][width];
 
@@ -210,22 +214,6 @@ public class Implementation {
         BufferedImage image = new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
         image.setRGB(0, 0, width, height, px, 0, width);
         return image;
-    }*/
-
-    public static void trans(int x, int y, Objeto o, Graphics2D g) {
-        String op;
-        Point p1, p2;
-
-        op = o.getOp();
-        p1 = o.getP1();
-        p2 = o.getP2();
-
-        Point newP1, newP2;
-
-        newP1 = new Point(p1.x + x, p1.y + y);
-        newP2 = new Point(p2.x + x, p2.y + y);
-
-        dda(newP1, newP2, g);
     }
 
     public static void rot() {
@@ -278,6 +266,5 @@ public class Implementation {
     public static void flood() {
         //TODO
     }
-
 
 }

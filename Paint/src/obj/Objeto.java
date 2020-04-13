@@ -1,3 +1,5 @@
+package obj;
+
 
 import java.awt.Point;
 
@@ -18,10 +20,7 @@ public class Objeto {
     private String op;
     private String nome;
 
-    public Objeto() {
-    }
-
-    Objeto(Point p1, Point p2, String c, String nome) {
+    public Objeto(Point p1, Point p2, String c, String nome) {
         this.p1 = p1;
         this.p2 = p2;
         this.op = c;

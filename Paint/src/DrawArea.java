@@ -1,4 +1,4 @@
-
+import obj.Objeto;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 import javax.swing.event.MouseInputListener;
@@ -23,9 +22,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import plots.*;
+import transforms.Escala;
+import transforms.Translacao;
+
 public class DrawArea extends JComponent implements MouseInputListener {
 
-    ArrayList<Objeto> objetos = new ArrayList<Objeto>();
+    ArrayList<Objeto> objetos;
     // Image in which we're going to draw
     private Image image;
     // Graphics2D object ==> used to draw on
@@ -43,6 +46,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
         addMouseListener(this);
         addMouseMotionListener(this);
         num_objetos = 0;
+        objetos = new ArrayList<Objeto>();
     }
 
     protected void paintComponent(Graphics g) {
@@ -71,7 +75,6 @@ public class DrawArea extends JComponent implements MouseInputListener {
         g2.fillRect(0, 0, getSize().width, getSize().height);
         g2.setPaint(Color.black);
         repaint();
-        objetos.clear();
     }
 
     public void black() {
@@ -127,37 +130,17 @@ public class DrawArea extends JComponent implements MouseInputListener {
             + " com ponto inicial " + p1.x + " " + p1.y 
             + " e ponto final " + p2.x + " " + p2.y);
     }
-
-    public int[][] convertToPixels() {
-        int width = this.image.getWidth(null);
-        int height = this.image.getHeight(null);
-        BufferedImage img = toBufferedImage(this.image);
-        int[][] matrix = new int[height][width];
-
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                matrix[row][col] = img.getRGB(col, row);
-            }
+    
+    void checkObs(){
+        System.out.println("Objetos existentes:");
+        for(Objeto o : objetos){
+            System.out.println(o.getNome()
+                            + "\noperação: " + o.getOp()
+                            + "\nnome:" + o.getNome()
+                            + " \np1: " + o.getP1().x + " " + o.getP1().y
+                            + " \np2: " + o.getP2().x + " " + o.getP2().y
+                            + "\n--");
         }
-
-        return matrix;
-    }
-
-    public static BufferedImage toBufferedImage(Image img) {
-        if (img instanceof BufferedImage) {
-            return (BufferedImage) img;
-        }
-
-        // Create a buffered image with transparency
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
-        // Draw the image on to the buffered image
-        Graphics2D bGr = bimage.createGraphics();
-        bGr.drawImage(img, 0, 0, null);
-        bGr.dispose();
-
-        // Return the buffered image
-        return bimage;
     }
 
     public void dot(MouseEvent e) {
@@ -165,7 +148,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
         current_point = new Point(e.getX(), e.getY());
         Point rand = new Point(-1, -1);
         saveAdd(current_point, rand, "dot", "Ponto");
-        Implementation.dot(current_point, g2);
+        Ponto.plot(current_point, g2);
     }
 
     public void draw(MouseEvent e, String c) {
@@ -174,28 +157,60 @@ public class DrawArea extends JComponent implements MouseInputListener {
             current_point = new Point(e.getX(), e.getY());
             if (c.equals("dda")) {
                 saveAdd(old_point, current_point, c, "Reta");
-                Implementation.dda(old_point, current_point, g2);
+                DDA.plot(old_point, current_point, g2);
             } else if (c.equals("bresenham")) {
                 saveAdd(old_point, current_point, c, "Reta");
-                Implementation.bresenham(old_point, current_point, g2);
+                Bresenham.plot(old_point, current_point, g2);
             } else if (c.equals("retangulo")) {
                 saveAdd(old_point, current_point, c, "Retangulo");
-                Implementation.ret(old_point, current_point, g2);
+                Retangulo.plot(old_point, current_point, g2);
             } else if (c.equals("circ")) {
                 saveAdd(old_point, current_point, c, "Circulo");
                 int r = (int) Math.sqrt(Math.pow(old_point.x - current_point.x, 2) + Math.pow(old_point.y - current_point.y, 2));
-                Implementation.circ(old_point, r, g2);
+                Circulo.plot(old_point, r, g2);
             }
             clicked = false;
         } else {
             current_point = new Point(e.getX(), e.getY());
             if (c.equals("circ") || c.equals("trans")) {/*nop*/
             } else {
-                Implementation.dot(current_point, g2); // coloca ponto inicial
+                Ponto.plot(current_point, g2); // coloca ponto inicial
             }
 
             clicked = true;
         }
+    }
+    
+    public void draw(Objeto o) {
+        String op = o.getOp();
+        System.out.println("Desenhando objeto " + o.getNome() + " operacao " + op);
+        switch(op){
+            case "dot":
+                Ponto.plot(o.getP1(), g2);
+                break;
+            case "retangulo":
+                Retangulo.plot(o.getP1(), o.getP2(), g2);
+                break;
+            case "dda":
+                System.out.println("alo");
+                DDA.plot(o.getP1(), o.getP2(), g2);
+                break;
+            case "bresenham":
+                Bresenham.plot(o.getP1(), o.getP2(), g2);
+                break;
+            case "circ":
+                int r = (int) Math.sqrt(Math.pow(o.getP1().x - o.getP2().x, 2) + Math.pow(o.getP1().y - o.getP2().y, 2));
+                Circulo.plot(o.getP1(), r, g2);
+                break;
+        }
+    }
+    
+    public void redraw(){
+        clear();
+        for(Objeto o : objetos){
+            this.draw(o);
+        }
+        repaint();
     }
 
     public Objeto selectObject(){
@@ -222,13 +237,13 @@ public class DrawArea extends JComponent implements MouseInputListener {
             for(Objeto i : objetos){
                 if(i.getNome().equals(cb.getSelectedItem())){
                     o = i;
-                    System.out.println("Objeto selecionado: " + o.getNome());
+                    System.out.println("Objeto selecionado: " + o.getNome() 
+                            + " p1: " + o.getP1().x + " " + o.getP1().y
+                            + " p2: " + o.getP2().x + " " + o.getP2().y);
                 }
             }
         }
         return o;
-        
-
     }
 
     public void trans() {
@@ -251,12 +266,20 @@ public class DrawArea extends JComponent implements MouseInputListener {
             x = Integer.parseInt(xField.getText());
             y = Integer.parseInt(yField.getText());
         }
-
-        Implementation.trans(x, y, o, g2);
-
-        //Image image2 = Implementation.trans(x, y, this.convertToPixels());
-        //g2.drawImage(image2, 0, 0, null);
-        repaint();
+        
+        o = Translacao.trans(x, y, o);
+        
+        System.out.println("Objeto transladado: " + o.getNome() 
+                            + " p1: " + o.getP1().x + " " + o.getP1().y
+                            + " p2: " + o.getP2().x + " " + o.getP2().y);
+        
+        for(int i = 0; i < objetos.size(); i++){
+            if(objetos.get(i).getNome().equals(o.getNome())){
+                objetos.set(i, o);
+            }
+        }
+        
+        redraw();
     }
 
     public void rot(MouseEvent e) {
@@ -264,11 +287,24 @@ public class DrawArea extends JComponent implements MouseInputListener {
 
     ;
     public void escala() {
+        Objeto o = selectObject();
         double escala = Double.parseDouble(JOptionPane.showInputDialog("Selecione o valor de escala:"));
+        
+        int x_original, y_original;
+        x_original = o.getP1().x;
+        y_original = o.getP1().y;
+        
+        o = Translacao.trans(-x_original, -y_original, o);
+        o = Escala.scale(escala, o);
+        o = Translacao.trans(x_original, y_original, o);
 
-        Image image2 = Implementation.escala(escala, this.convertToPixels());
-        g2.drawImage(image2, 0, 0, null);
-        repaint();
+        for(int i = 0; i < objetos.size(); i++){
+            if(objetos.get(i).getNome().equals(o.getNome())){
+                objetos.set(i, o);
+            }
+        }
+        
+        redraw();
     }
 
     ;
@@ -295,7 +331,6 @@ public class DrawArea extends JComponent implements MouseInputListener {
             case "dda":  //Nao eh erro
             case "bresenham":
             case "circ":
-            case "trans":
                 draw(e, getState());
                 break;
             case "rot":

@@ -5,24 +5,24 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 
 import javax.swing.JComponent;
 import javax.swing.event.MouseInputListener;
 
-import java.awt.image.ImageObserver;
-import java.awt.image.PixelGrabber;
-import java.awt.image.WritableRaster;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-import java.lang.Math;  // sqrt
+import java.util.ArrayList;
 
 public class DrawArea extends JComponent implements MouseInputListener {
 
+    ArrayList<Desenhos> objetos = new ArrayList<Desenhos>();
     // Image in which we're going to draw
     private Image image;
     // Graphics2D object ==> used to draw on
@@ -71,6 +71,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
         g2.fillRect(0, 0, getSize().width, getSize().height);
         g2.setPaint(Color.black);
         repaint();
+        objetos.clear();
     }
 
     public void black() {
@@ -87,24 +88,61 @@ public class DrawArea extends JComponent implements MouseInputListener {
         return this.current_state;
     }
 
-    public int[][] convertToPixels() {
-      int width = this.image.getWidth(null);
-      int height = this.image.getHeight(null);
-      BufferedImage img = toBufferedImage(this.image);
-      int[][] matrix = new int[height][width];
+    public void open() {
 
-      for (int row = 0; row < height; row++) {
-         for (int col = 0; col < width; col++) {
-            matrix[row][col] = img.getRGB(col, row);
-         }
-      }
+        try ( BufferedReader br = Files.newBufferedReader(Paths.get("filename.txt"))) {
+            // read line by line
+            String line;
 
-      return matrix;
+            while ((line = br.readLine()) != null) {
+                String[] splitedLine = line.split(":");
+                String[] p1 = splitedLine[0].split(",");
+
+
+            }
+
+        } catch (IOException e) {
+            System.err.format("IOException: %s%n", e);
+        }
     }
 
-    public static BufferedImage toBufferedImage(Image img){
-        if (img instanceof BufferedImage)
-        {
+    public void save() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("image.txt"));
+
+        for (int i = 0; i < objetos.size(); i++) {
+            writer.append(objetos.get(i).p1.x + ","
+                    + objetos.get(i).p1.y + ":"
+                    + objetos.get(i).p2.x + ","
+                    + objetos.get(i).p2.y + ":"
+                    + objetos.get(i).op + "\n");
+        }
+        writer.close();
+    }
+
+    public void saveAdd(Point p1, Point p2, String c) {
+
+        Desenhos d = new Desenhos(p1, p2, c);
+        objetos.add(d);
+
+    }
+
+    public int[][] convertToPixels() {
+        int width = this.image.getWidth(null);
+        int height = this.image.getHeight(null);
+        BufferedImage img = toBufferedImage(this.image);
+        int[][] matrix = new int[height][width];
+
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                matrix[row][col] = img.getRGB(col, row);
+            }
+        }
+
+        return matrix;
+    }
+
+    public static BufferedImage toBufferedImage(Image img) {
+        if (img instanceof BufferedImage) {
             return (BufferedImage) img;
         }
 
@@ -120,49 +158,79 @@ public class DrawArea extends JComponent implements MouseInputListener {
         return bimage;
     }
 
-
-    public void dot(MouseEvent e){
+    public void dot(MouseEvent e) {
         System.out.println("dot");
         current_point = new Point(e.getX(), e.getY());
+        Point rand = new Point(-1, -1);
+        saveAdd(current_point, rand, "dot");
         Implementation.dot(current_point, g2);
     }
 
-    public void line(MouseEvent e, String c){
+    public void line(MouseEvent e, String c) {
         if (clicked) {
             old_point = current_point;
             current_point = new Point(e.getX(), e.getY());
             System.out.println("x: " + current_point.x + " y: " + current_point.y);
-            if(c.equals("dda")){
-               Implementation.dda(old_point, current_point, g2);
-            } else if(c.equals("bresenham")){
+            if (c.equals("dda")) {
+                saveAdd(old_point, current_point, c);
+                Implementation.dda(old_point, current_point, g2);
+            } else if (c.equals("bresenham")) {
+                saveAdd(old_point, current_point, c);
                 Implementation.bresenham(old_point, current_point, g2);
-            } else if (c.equals("square")){
+            } else if (c.equals("square")) {
+                saveAdd(old_point, current_point, c);
                 Implementation.square(old_point, current_point, g2);
-            } else if (c.equals("circ")){
-                int r = (int) Math.sqrt( Math.pow(old_point.x - current_point.x ,2) + Math.pow(old_point.y - current_point.y ,2) );
-                Implementation.circ(old_point, r , g2);
+            } else if (c.equals("circ")) {
+                saveAdd(old_point, current_point, c);
+                int r = (int) Math.sqrt(Math.pow(old_point.x - current_point.x, 2) + Math.pow(old_point.y - current_point.y, 2));
+                Implementation.circ(old_point, r, g2);
+            } else if (c.equals("trans")) {
+                saveAdd(old_point, current_point, c);
+                //trans(old_point, current_point);
             }
             clicked = false;
         } else {
             System.out.println(c);
             current_point = new Point(e.getX(), e.getY());
             System.out.println("x: " + current_point.x + " y: " + current_point.y);
-            if(!c.equals("circ"))Implementation.dot(current_point, g2); // coloca ponto inicial
+            if (c.equals("circ") || c.equals("trans")) {/*nop*/
+            } else {
+                Implementation.dot(current_point, g2); // coloca ponto inicial
+            }
+
             clicked = true;
         }
     }
 
-    public void trans(){
-        Image image2 = Implementation.trans(20, 25, this.convertToPixels());
+    public void trans() {
+
+        //String m = JOptionPane.showInputDialog("Insira os valores de tranlacao");
+        //System.out.println(m);
+        Image image2 = Implementation.trans(10, 20, this.convertToPixels());
         g2.drawImage(image2, 0, 0, null);
         repaint();
     }
 
-    public void rot(MouseEvent e){};
-    public void escala(MouseEvent e){};
-    public void reflex(MouseEvent e){};
-    public void cohen(MouseEvent e){};
-    public void flood(MouseEvent e){};
+    public void rot(MouseEvent e) {
+    }
+
+    ;
+    public void escala(MouseEvent e) {
+    }
+
+    ;
+    public void reflex(MouseEvent e) {
+    }
+
+    ;
+    public void cohen(MouseEvent e) {
+    }
+
+    ;
+    public void flood(MouseEvent e) {
+    }
+
+    ;
 
     //metodos mouseListener
     public void mouseClicked(MouseEvent e) {
@@ -174,6 +242,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
             case "dda":  //Nao eh erro
             case "bresenham":
             case "circ":
+            case "trans":
                 line(e, getState());
                 break;
             case "rot":
@@ -197,11 +266,22 @@ public class DrawArea extends JComponent implements MouseInputListener {
     }
 
     //
-    public void mouseMoved(MouseEvent e) {}
-    public void mouseExited(MouseEvent e) {}
-    public void mouseReleased(MouseEvent e) {}
-    public void mouseEntered(MouseEvent e) {}
-    public void mousePressed(MouseEvent e) {}
-    public void mouseDragged(MouseEvent e) {}
+    public void mouseMoved(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseDragged(MouseEvent e) {
+    }
 
 }

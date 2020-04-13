@@ -8,12 +8,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 
 public class SwingPaint {
 
     JButton clearBtn, blackBtn, floodBtn, saveBtn, openBtn;
-    JButton squareBtn, dotBtn, transBtn, rotBtn, escalaBtn, reflexBtn;
+    JButton retBtn, dotBtn, transBtn, rotBtn, escalaBtn, reflexBtn;
     JButton ddaBtn, bresenhamBtn, circBtn, cohenBtn, liangBtn;
     DrawArea drawArea;
     ActionListener actionListener = new ActionListener() {
@@ -26,8 +25,8 @@ public class SwingPaint {
                 drawArea.setState("open");
             } else if (e.getSource() == clearBtn) {
                 drawArea.clear();
-            } else if (e.getSource() == squareBtn) {
-                drawArea.setState("square");
+            } else if (e.getSource() == retBtn) {
+                drawArea.setState("retangulo");
             } else if (e.getSource() == ddaBtn) {
                 drawArea.setState("dda");
             } else if (e.getSource() == bresenhamBtn) {
@@ -35,11 +34,11 @@ public class SwingPaint {
             } else if (e.getSource() == circBtn) {
                 drawArea.setState("circ");
             } else if (e.getSource() == transBtn) {
-                drawArea.setState("trans");
+                drawArea.trans();
             } else if (e.getSource() == rotBtn) {
                 drawArea.setState("rot");
             } else if (e.getSource() == escalaBtn) {
-                drawArea.setState("escala");
+                drawArea.escala();
             } else if (e.getSource() == reflexBtn) {
                 drawArea.setState("reflex");
             } else if (e.getSource() == cohenBtn) {
@@ -70,7 +69,6 @@ public class SwingPaint {
 
 
         // create controls to apply colors and call clear feature
-        JPanel controls = new JPanel();
         JPanel controls2 = new JPanel();
 
         controls2.setLayout(new BoxLayout(controls2, BoxLayout.Y_AXIS));
@@ -93,19 +91,6 @@ public class SwingPaint {
         // Now you can try our Swing Paint !!! Enjoy :D
     }
 
-    private void createPanel(JPanel controls) {
-
-        // create controls to apply colors
-        /*saveBtn = new JButton("Cor1");
-        saveBtn.addActionListener(actionListener);
-        openBtn = new JButton("Cor2");
-        openBtn.addActionListener(actionListener);
-
-        // add to panel
-        controls.add(saveBtn);
-        controls.add(openBtn);*/
-    }
-
     private void createPanel2(JPanel controls) {
         saveBtn = new JButton("Save");
         saveBtn.addActionListener(actionListener);
@@ -115,9 +100,9 @@ public class SwingPaint {
         clearBtn.addActionListener(actionListener);
         dotBtn = new JButton("Ponto");
         dotBtn.addActionListener(actionListener);
-        squareBtn = new JButton("Square");
-        squareBtn.addActionListener(actionListener);
-        ddaBtn = new JButton("DDA  ");
+        retBtn = new JButton("Retangulo");
+        retBtn.addActionListener(actionListener);
+        ddaBtn = new JButton("DDA");
         ddaBtn.addActionListener(actionListener);
         bresenhamBtn = new JButton("Bresenham");
         bresenhamBtn.addActionListener(actionListener);
@@ -131,7 +116,7 @@ public class SwingPaint {
         escalaBtn.addActionListener(actionListener);
         reflexBtn = new JButton("Reflexao");
         reflexBtn.addActionListener(actionListener);
-        cohenBtn = new JButton(" Cohen");
+        cohenBtn = new JButton("Cohen");
         cohenBtn.addActionListener(actionListener);
         floodBtn = new JButton("Flood Fill");
         floodBtn.addActionListener(actionListener);
@@ -140,7 +125,7 @@ public class SwingPaint {
         controls.add(openBtn);
         controls.add(clearBtn);
         controls.add(dotBtn);
-        controls.add(squareBtn);
+        controls.add(retBtn);
         controls.add(ddaBtn);
         controls.add(bresenhamBtn);
         controls.add(circBtn);

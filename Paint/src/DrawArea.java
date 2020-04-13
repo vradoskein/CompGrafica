@@ -1,3 +1,4 @@
+
 import obj.Objeto;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,6 +7,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 
 import javax.swing.JComponent;
 import javax.swing.event.MouseInputListener;
@@ -13,6 +15,8 @@ import javax.swing.event.MouseInputListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import java.util.ArrayList;
 import javax.swing.Box;
@@ -39,7 +43,6 @@ public class DrawArea extends JComponent implements MouseInputListener {
 
     //for object naming
     private static int num_objetos;
-
 
     public DrawArea() {
         setDoubleBuffered(false);
@@ -74,7 +77,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
         num_objetos = 0;
         clearCanvas();
     }
-    
+
     public void clearCanvas() {
         g2.setPaint(Color.white);
         // draw white on entire draw area to clear
@@ -97,23 +100,42 @@ public class DrawArea extends JComponent implements MouseInputListener {
         return this.current_state;
     }
 
-    /*public void open() {
+    public void open() {
 
-        try ( BufferedReader br = Files.newBufferedReader(Paths.get("filename.txt"))) {
+        try ( BufferedReader br = Files.newBufferedReader(Paths.get("image.txt"))) {
             // read line by line
             String line;
 
             while ((line = br.readLine()) != null) {
+                Point ponto1 = new Point();
+                Point ponto2 = new Point();
+                System.out.println(line);
                 String[] splitedLine = line.split(":");
-                String[] p1 = splitedLine[0].split(",");
 
+                String[] point1 = splitedLine[0].split(",");
+                ponto1.x = Integer.parseInt(point1[0]);
+                ponto1.y = Integer.parseInt(point1[1]);
+
+                String[] point2 = splitedLine[1].split(",");
+                ponto2.x = Integer.parseInt(point2[0]);
+                ponto2.y = Integer.parseInt(point2[1]);
+
+                String op = splitedLine[2];
+                String nome = splitedLine[2];
+
+                System.out.println("[INFO] Recuperando objeto " + nome + " do tipo " + op
+                        + " com ponto inicial " + ponto1.x + " " + ponto1.y
+                        + " e ponto final " + ponto2.x + " " + ponto2.y);
+                saveAdd(ponto1, ponto2, op, nome);
 
             }
+            checkObs();
+            redraw();
 
         } catch (IOException e) {
             System.err.format("IOException: %s%n", e);
         }
-    }*/
+    }
 
     public void save() throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter("image.txt"));
@@ -131,21 +153,27 @@ public class DrawArea extends JComponent implements MouseInputListener {
     public void saveAdd(Point p1, Point p2, String c, String tipo) {
         String nome = tipo + " " + ++num_objetos;
         Objeto d = new Objeto(p1, p2, c, nome);
+
         objetos.add(d);
-        System.out.println("Salvo objeto " + nome + " do tipo " + c  
-            + " com ponto inicial " + p1.x + " " + p1.y 
-            + " e ponto final " + p2.x + " " + p2.y);
+        System.out.println("[INFO] Salvo objeto " + nome + " do tipo " + c
+                + " com ponto inicial " + p1.x + " " + p1.y
+                + " e ponto final " + p2.x + " " + p2.y);
+        checkObs();
     }
-    
-    void checkObs(){
-        System.out.println("Objetos existentes:");
-        for(Objeto o : objetos){
+    public void undo(){
+        objetos.remove(objetos.size() - 1);
+        redraw();
+    }
+
+    void checkObs() {
+        System.out.println("[DATA] Objetos existentes:");
+        for (Objeto o : objetos) {
             System.out.println(o.getNome()
-                            + "\noperação: " + o.getOp()
-                            + "\nnome:" + o.getNome()
-                            + " \np1: " + o.getP1().x + " " + o.getP1().y
-                            + " \np2: " + o.getP2().x + " " + o.getP2().y
-                            + "\n--");
+                    + "\noperação: " + o.getOp()
+                    + "\nnome:" + o.getNome()
+                    + " \np1: " + o.getP1().x + " " + o.getP1().y
+                    + " \np2: " + o.getP2().x + " " + o.getP2().y
+                    + "\n--");
         }
     }
 
@@ -186,11 +214,11 @@ public class DrawArea extends JComponent implements MouseInputListener {
             clicked = true;
         }
     }
-    
+
     public void draw(Objeto o) {
         String op = o.getOp();
         System.out.println("Desenhando objeto " + o.getNome() + " operacao " + op);
-        switch(op){
+        switch (op) {
             case "dot":
                 Ponto.plot(o.getP1(), g2);
                 break;
@@ -210,21 +238,21 @@ public class DrawArea extends JComponent implements MouseInputListener {
                 break;
         }
     }
-    
-    public void redraw(){
+
+    public void redraw() {
         clearCanvas();
-        for(Objeto o : objetos){
+        for (Objeto o : objetos) {
             this.draw(o);
         }
         repaint();
     }
 
-    public Objeto selectObject(){
+    public Objeto selectObject() {
         //cria combobox com objetos
         int tam = this.objetos.size();
         String[] obs = new String[tam];
-        
-        for(int i = 0; i < tam; i++){
+
+        for (int i = 0; i < tam; i++) {
             obs[i] = objetos.get(i).getNome();
         }
 
@@ -234,16 +262,16 @@ public class DrawArea extends JComponent implements MouseInputListener {
         JPanel selecao = new JPanel();
         selecao.add(new JLabel("Selecione o objeto que deseja transformar:"));
         selecao.add(cb);
-        
+
         //retorna o objeto
         Objeto o = null;
         int result = JOptionPane.showConfirmDialog(null, selecao,
-            "Selecionar Objeto", JOptionPane.OK_CANCEL_OPTION);
+                "Selecionar Objeto", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-            for(Objeto i : objetos){
-                if(i.getNome().equals(cb.getSelectedItem())){
+            for (Objeto i : objetos) {
+                if (i.getNome().equals(cb.getSelectedItem())) {
                     o = i;
-                    System.out.println("Objeto selecionado: " + o.getNome() 
+                    System.out.println("Objeto selecionado: " + o.getNome()
                             + " p1: " + o.getP1().x + " " + o.getP1().y
                             + " p2: " + o.getP2().x + " " + o.getP2().y);
                 }
@@ -267,24 +295,24 @@ public class DrawArea extends JComponent implements MouseInputListener {
         int x = 0, y = 0;
 
         int result = JOptionPane.showConfirmDialog(null, myPanel,
-           "Entre com os valores x e y de translação", JOptionPane.OK_CANCEL_OPTION);
+                "Entre com os valores x e y de translação", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             x = Integer.parseInt(xField.getText());
             y = Integer.parseInt(yField.getText());
         }
-        
+
         o = Translacao.trans(x, y, o);
-        
-        System.out.println("Objeto transladado: " + o.getNome() 
-                            + " p1: " + o.getP1().x + " " + o.getP1().y
-                            + " p2: " + o.getP2().x + " " + o.getP2().y);
-        
-        for(int i = 0; i < objetos.size(); i++){
-            if(objetos.get(i).getNome().equals(o.getNome())){
+
+        System.out.println("Objeto transladado: " + o.getNome()
+                + " p1: " + o.getP1().x + " " + o.getP1().y
+                + " p2: " + o.getP2().x + " " + o.getP2().y);
+
+        for (int i = 0; i < objetos.size(); i++) {
+            if (objetos.get(i).getNome().equals(o.getNome())) {
                 objetos.set(i, o);
             }
         }
-        
+
         redraw();
     }
 
@@ -295,21 +323,21 @@ public class DrawArea extends JComponent implements MouseInputListener {
     public void escala() {
         Objeto o = selectObject();
         double escala = Double.parseDouble(JOptionPane.showInputDialog("Selecione o valor de escala:"));
-        
+
         int x_original, y_original;
         x_original = o.getP1().x;
         y_original = o.getP1().y;
-        
+
         o = Translacao.trans(-x_original, -y_original, o);
         o = Escala.scale(escala, o);
         o = Translacao.trans(x_original, y_original, o);
 
-        for(int i = 0; i < objetos.size(); i++){
-            if(objetos.get(i).getNome().equals(o.getNome())){
+        for (int i = 0; i < objetos.size(); i++) {
+            if (objetos.get(i).getNome().equals(o.getNome())) {
                 objetos.set(i, o);
             }
         }
-        
+
         redraw();
     }
 
@@ -323,6 +351,8 @@ public class DrawArea extends JComponent implements MouseInputListener {
 
     ;
     public void flood(MouseEvent e) {
+        current_point = new Point(e.getX(), e.getY());
+        Floodfill.plot(current_point, g2);
     }
 
     ;

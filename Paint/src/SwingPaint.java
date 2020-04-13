@@ -3,6 +3,9 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 
 import javax.swing.JButton;
@@ -11,7 +14,7 @@ import javax.swing.JPanel;
 
 public class SwingPaint {
 
-    JButton clearBtn, blackBtn, floodBtn, saveBtn, openBtn;
+    JButton clearBtn, blackBtn, floodBtn, saveBtn, openBtn, undoBtn;
     JButton retBtn, dotBtn, transBtn, rotBtn, escalaBtn, reflexBtn;
     JButton ddaBtn, bresenhamBtn, circBtn, cohenBtn, liangBtn;
     DrawArea drawArea;
@@ -20,9 +23,13 @@ public class SwingPaint {
         //add the buttons
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == saveBtn) {
-                drawArea.setState("save");
+                try {
+                    drawArea.save();
+                } catch (IOException ex) {
+                    Logger.getLogger(SwingPaint.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else if (e.getSource() == openBtn) {
-                drawArea.setState("open");
+                drawArea.open();
             } else if (e.getSource() == clearBtn) {
                 drawArea.clear();
             } else if (e.getSource() == retBtn) {
@@ -47,6 +54,8 @@ public class SwingPaint {
                 drawArea.setState("flood");
             } else if(e.getSource() == dotBtn){
                 drawArea.setState("dot");
+            } else if(e.getSource() == undoBtn){
+                drawArea.undo();
             }
         }
     };
@@ -120,6 +129,9 @@ public class SwingPaint {
         cohenBtn.addActionListener(actionListener);
         floodBtn = new JButton("Flood Fill");
         floodBtn.addActionListener(actionListener);
+        undoBtn = new JButton("Undo");
+        undoBtn.addActionListener(actionListener);
+        
 
         controls.add(saveBtn);
         controls.add(openBtn);
@@ -135,6 +147,7 @@ public class SwingPaint {
         controls.add(reflexBtn);
         controls.add(cohenBtn);
         controls.add(floodBtn);
+        controls.add(undoBtn);
 
     }
 

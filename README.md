@@ -6,20 +6,20 @@ Trabalho realizado na disciplina Computação Gráfica 2020-1
 
 O projeto esta estruturado da seguinte forma:
 * Pasta src
-* Arquivo SwingPaint.java
-* Implementação da interface.
+    * Arquivo SwingPaint.java
+        * Implementação da interface.
 
-* Arquivo DrawArea.java
-* Criação da área de desenho
-* Click listener
-* Operações de salvar, abrir, desfazer, limpar a tela
-* Chamada dos métodos para plotar no canvas
+        * Arquivo DrawArea.java
+            * Criação da área de desenho
+            * Click listener
+            * Operações de salvar, abrir, desfazer, limpar a tela
+            * Chamada dos métodos para plotar no canvas
 
-* Pasta plots
-* Operações para desenho dos objetos no canvas
+        * Pasta plots
+            * Operações para desenho dos objetos no canvas
 
-* Pasta tranforms
-* Operações de translação, rotação, reflexão e escala para os objetos
+        * Pasta tranforms
+            * Operações de translação, rotação, reflexão e escala para os objetos
 
 
 ## Usage
@@ -27,13 +27,13 @@ O projeto esta estruturado da seguinte forma:
 TODO
 
 ## Contributing
-* Trabalho feito por:
-* Bernado Victor (@bernardo6526)
-* Carlos Nassif (@CarlosNassif)
-* João Rene (@Vradoskein)
-* Pedro Diogenes (@Pdiogenes)
+    * Trabalho feito por:
+    * Bernado Victor (@bernardo6526)
+    * Carlos Nassif (@CarlosNassif)
+    * João Rene (@Vradoskein)
+    * Pedro Diogenes (@Pdiogenes)
 
-Pull requests são bem-vindos. 
+Pull requests são bem-vindos.
 
 
 

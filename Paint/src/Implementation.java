@@ -172,12 +172,14 @@ public class Implementation {
         int width = m[0].length; int height = m.length;
         int[][]m2 = new int[height][width];
 
+        // criacao da imagem em branco
         for(int i = 0; i < height; i++){
           for(int j = 0; j < width; j++){ // else descarta o pixel
             m2[i][j] = -1; // preencher a matriz de pixels com branco
           }
         }
 
+        // calculo da translacao
         int yi, yf, xi, xf;
         if(y >= 0){
           yi = 0;
@@ -193,20 +195,22 @@ public class Implementation {
           xi = 0-x;
           xf = 0;
         }
-        for(int i = yi; i < height-yf; i++){
-          for(int j = xi; j < width-xf; j++){ // else descarta o pixel
-            m2[i+yf][j+xf] = m[i][j];
+        for(int i = yi; i < height-yf; i++) {
+          for(int j = xi; j < width-xf; j++) {
+            m2[i+yf-yi][j+xf-xi] = m[i][j];
           }
         }
 
+        // preenchimento do vetor de pixels novo
         int px[] = new int[width*height];
         int k = 0;
-        for(int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++){
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
                 px[k++] = m2[i][j];
             }
         }
 
+        // criacao da Imagem a partir do vetor de pixels
         BufferedImage image = new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
         image.setRGB(0, 0, width, height, px, 0, width);
         return image;
@@ -216,8 +220,39 @@ public class Implementation {
         //TODO
     }
 
-    public static void escala() {
-        //TODO
+    public static Image escala(double escala, int[][] m) {
+        int width = m[0].length; int height = m.length;
+        int[][]m2 = new int[height][width];
+
+        // criacao da imagem em branco
+        for(int i = 0; i < height; i++){
+          for(int j = 0; j < width; j++){
+            m2[i][j] = -1; // preencher a matriz de pixels com branco
+          }
+        }
+
+
+        // calc bernardo
+        for(int i = 0; i < height; i++) {
+          for(int j = 0; j < width; j++) {
+              if((int)(i*escala) < height && (int)(j*escala) < width)
+                m2[(int)(i*escala)][(int)(j*escala)] = m[i][j]; // n vai funcionar ainda
+          }
+        }
+
+        // preenchimento do vetor de pixels novo
+        int px[] = new int[width*height];
+        int k = 0;
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                px[k++] = m2[i][j];
+            }
+        }
+
+        // criacao da Imagem a partir do vetor de pixels
+        BufferedImage image = new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
+        image.setRGB(0, 0, width, height, px, 0, width);
+        return image;
     }
 
     public static void reflexao() {

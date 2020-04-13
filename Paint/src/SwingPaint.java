@@ -35,7 +35,7 @@ public class SwingPaint {
             } else if (e.getSource() == circBtn) {
                 drawArea.setState("circ");
             } else if (e.getSource() == transBtn) {
-                drawArea.trans();
+                drawArea.setState("trans");
             } else if (e.getSource() == rotBtn) {
                 drawArea.setState("rot");
             } else if (e.getSource() == escalaBtn) {

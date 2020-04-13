@@ -19,6 +19,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import java.util.ArrayList;
+import javax.swing.Box;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class DrawArea extends JComponent implements MouseInputListener {
 
@@ -88,7 +93,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
         return this.current_state;
     }
 
-    public void open() {
+    /*public void open() {
 
         try ( BufferedReader br = Files.newBufferedReader(Paths.get("filename.txt"))) {
             // read line by line
@@ -104,7 +109,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
         } catch (IOException e) {
             System.err.format("IOException: %s%n", e);
         }
-    }
+    }*/
 
     public void save() throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter("image.txt"));
@@ -204,9 +209,26 @@ public class DrawArea extends JComponent implements MouseInputListener {
 
     public void trans() {
 
-        //String m = JOptionPane.showInputDialog("Insira os valores de tranlacao");
-        //System.out.println(m);
-        Image image2 = Implementation.trans(10, 20, this.convertToPixels());
+        JTextField xField = new JTextField(5);
+        JTextField yField = new JTextField(5);
+
+        JPanel myPanel = new JPanel();
+        myPanel.add(new JLabel("x:"));
+        myPanel.add(xField);
+        myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+        myPanel.add(new JLabel("y:"));
+        myPanel.add(yField);
+
+        int x = 0, y = 0;
+
+        int result = JOptionPane.showConfirmDialog(null, myPanel,
+           "Entre com os valores x e y de translação", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            x = Integer.parseInt(xField.getText());
+            y = Integer.parseInt(yField.getText());
+        }
+
+        Image image2 = Implementation.trans(x, y, this.convertToPixels());
         g2.drawImage(image2, 0, 0, null);
         repaint();
     }
@@ -215,7 +237,12 @@ public class DrawArea extends JComponent implements MouseInputListener {
     }
 
     ;
-    public void escala(MouseEvent e) {
+    public void escala() {
+        double escala = Double.parseDouble(JOptionPane.showInputDialog("Select scale level"));
+
+        Image image2 = Implementation.escala(escala, this.convertToPixels());
+        g2.drawImage(image2, 0, 0, null);
+        repaint();
     }
 
     ;
@@ -247,9 +274,6 @@ public class DrawArea extends JComponent implements MouseInputListener {
                 break;
             case "rot":
                 rot(e);
-                break;
-            case "escala":
-                escala(e);
                 break;
             case "reflex":
                 reflex(e);

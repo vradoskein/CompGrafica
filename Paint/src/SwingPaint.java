@@ -43,7 +43,7 @@ public class SwingPaint {
             } else if (e.getSource() == transBtn) {
                 drawArea.trans();
             } else if (e.getSource() == rotBtn) {
-                drawArea.setState("rot");
+                drawArea.rotate();
             } else if (e.getSource() == escalaBtn) {
                 drawArea.escala();
             } else if (e.getSource() == reflexBtn) {
@@ -129,7 +129,7 @@ public class SwingPaint {
         cohenBtn.addActionListener(actionListener);
         floodBtn = new JButton("Flood Fill");
         floodBtn.addActionListener(actionListener);
-        undoBtn = new JButton("Remove last modified");
+        undoBtn = new JButton("Remover ultimo objeto");
         undoBtn.addActionListener(actionListener);
         
 

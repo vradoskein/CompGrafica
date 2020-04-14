@@ -4,15 +4,18 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import obj.Objeto;
 
 /**
  *
  * @author Pedro
  */
 public class Ponto {
-    public static void plot(Point point, Graphics2D g) {
+    public static void plot(Objeto o, Graphics2D g) {
         g.setStroke(new BasicStroke(5));
         g.setPaint(Color.black);
+        
+        Point point = o.getPontos().get(0);
         g.drawLine(point.x, point.y, point.x, point.y);
     }
 }

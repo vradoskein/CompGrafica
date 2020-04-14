@@ -2,6 +2,7 @@ package obj;
 
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,44 +16,22 @@ import java.awt.Point;
  */
 public class Objeto {
 
-    private Point p1;
-    private Point p2;
+    private ArrayList<Point> pontos;
     private String op;
     private String nome;
 
-    public Objeto(Point p1, Point p2, String c, String nome) {
-        this.p1 = p1;
-        this.p2 = p2;
+    public Objeto(ArrayList<Point> p, String c, String nome) {
+        this.pontos = p;
         this.op = c;
         this.nome = nome;
     }  
     
-    /**
-     * @return the p1
-     */
-    public Point getP1() {
-        return p1;
+    public ArrayList<Point> getPontos(){
+        return this.pontos;
     }
-
-    /**
-     * @param p1 the p1 to set
-     */
-    public void setP1(Point p1) {
-        this.p1 = p1;
-    }
-
-    /**
-     * @return the p2
-     */
-    public Point getP2() {
-        return p2;
-    }
-
-    /**
-     * @param p2 the p2 to set
-     */
-    public void setP2(Point p2) {
-        this.p2 = p2;
+    
+    public void addPonto(Point p){
+        this.pontos.add(p);
     }
 
     /**

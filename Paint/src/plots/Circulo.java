@@ -2,13 +2,20 @@ package plots;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import obj.Objeto;
 
 /**
  *
  * @author Pedro
  */
 public class Circulo {
-    public static void plot(Point p1, int r , Graphics2D g){
+    public static void plot(Objeto o, Graphics2D g){
+        Point p1, p2;
+        p1 = o.getPontos().get(0);
+        p2 = o.getPontos().get(1);
+        
+        int r = (int) Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+        
         int xc = p1.x;
         int yc = p1.y;
         int x = 0, y = r;

@@ -9,17 +9,17 @@ O projeto esta estruturado da seguinte forma:
     * Arquivo SwingPaint.java
         * Implementação da interface.
 
-        * Arquivo DrawArea.java
-            * Criação da área de desenho
-            * Click listener
-            * Operações de salvar, abrir, desfazer, limpar a tela
-            * Chamada dos métodos para plotar no canvas
+    * Arquivo DrawArea.java
+        * Criação da área de desenho
+        * Click listener
+        * Operações de salvar, abrir, desfazer, limpar a tela
+        * Chamada dos métodos para plotar no canvas
 
-        * Pasta plots
-            * Operações para desenho dos objetos no canvas
+     * Pasta plots
+        * Operações para desenho dos objetos no canvas
 
-        * Pasta tranforms
-            * Operações de translação, rotação, reflexão e escala para os objetos
+     * Pasta tranforms
+        * Operações de translação, rotação, reflexão e escala para os objetos
 
 
 ## Usage

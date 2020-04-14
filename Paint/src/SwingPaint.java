@@ -47,7 +47,7 @@ public class SwingPaint {
             } else if (e.getSource() == escalaBtn) {
                 drawArea.escala();
             } else if (e.getSource() == reflexBtn) {
-                drawArea.setState("reflex");
+                drawArea.reflect();
             } else if (e.getSource() == cohenBtn) {
                 drawArea.setState("cohen");
             } else if (e.getSource() == floodBtn) {

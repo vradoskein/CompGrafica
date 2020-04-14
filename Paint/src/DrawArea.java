@@ -320,10 +320,6 @@ public class DrawArea extends JComponent implements MouseInputListener {
         redraw();
     }
 
-    public void rot(MouseEvent e) {
-    }
-
-    ;
     public void escala() {
         Objeto o = selectObject();
         double escala = Double.parseDouble(JOptionPane.showInputDialog("Selecione o valor de escala:"));
@@ -345,7 +341,6 @@ public class DrawArea extends JComponent implements MouseInputListener {
         redraw();
     }
 
-    ;
     public void rotate() {
         Objeto o = selectObject();
         double deg = Double.parseDouble(JOptionPane.showInputDialog("Selecione o grau para rotacionar:"));
@@ -366,18 +361,41 @@ public class DrawArea extends JComponent implements MouseInputListener {
 
         redraw();
     }
+    
+    public void reflect() {
+        Objeto o = selectObject();
+        String[] options = { "x", "y", "xy" };
+        JPanel frame = new JPanel();
+        int op = JOptionPane.showOptionDialog(
+                null, "Escolha o eixo de reflexão", "Reflexão", JOptionPane.YES_NO_OPTION, 
+                JOptionPane.PLAIN_MESSAGE, null, options, "x");
+        System.out.println(op);
+        
+        int x_original, y_original;
+        x_original = o.getPontos().get(0).x;
+        y_original = o.getPontos().get(0).y;
 
-    ;
+        o = Translacao.translate(-x_original, -y_original, o);
+        o = Rotacao.reflect(op, o);
+        o = Translacao.translate(x_original, y_original, o);
+
+        for (int i = 0; i < objetos.size(); i++) {
+            if (objetos.get(i).getNome().equals(o.getNome())) {
+                objetos.set(i, o);
+            }
+        }
+
+        redraw();
+    }
+
     public void cohen(MouseEvent e) {
     }
 
-    ;
     public void flood(MouseEvent e) {
         current_point = new Point(e.getX(), e.getY());
         Floodfill.plot(current_point, g2);
     }
 
-    ;
 
     //metodos mouseListener
     public void mouseClicked(MouseEvent e) {

@@ -1,4 +1,1 @@
-115,144:416,268:115,268:416,144:retangulo:Retangulo 1 1
-580,558:686,359:dda:Reta 2
-326,278:478,304:circ:Circulo 3
-787,287:911,258:circ:Circulo 4
+355,151:410,181:355,181:410,151:retangulo:Retangulo 1

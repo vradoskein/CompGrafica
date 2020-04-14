@@ -50,11 +50,13 @@ public class SwingPaint {
                 drawArea.reflect();
             } else if (e.getSource() == cohenBtn) {
                 drawArea.setState("cohen");
+            } else if (e.getSource() == liangBtn) {
+                drawArea.setState("liang");
             } else if (e.getSource() == floodBtn) {
                 drawArea.setState("flood");
-            } else if(e.getSource() == dotBtn){
+            } else if (e.getSource() == dotBtn) {
                 drawArea.setState("dot");
-            } else if(e.getSource() == undoBtn){
+            } else if (e.getSource() == undoBtn) {
                 drawArea.undo();
             }
         }
@@ -76,7 +78,6 @@ public class SwingPaint {
         // add to content pane
         content.add(drawArea, BorderLayout.CENTER);
 
-
         // create controls to apply colors and call clear feature
         JPanel controls2 = new JPanel();
 
@@ -89,7 +90,6 @@ public class SwingPaint {
         // add to content pane
         //content.add(controls, BorderLayout.NORTH);
         content.add(controls2, BorderLayout.WEST);
-
 
         frame.setSize(1600, 600);
         // can close frame
@@ -125,13 +125,14 @@ public class SwingPaint {
         escalaBtn.addActionListener(actionListener);
         reflexBtn = new JButton("Reflexao");
         reflexBtn.addActionListener(actionListener);
+        liangBtn = new JButton("Liang");
+        liangBtn.addActionListener(actionListener);
         cohenBtn = new JButton("Cohen");
         cohenBtn.addActionListener(actionListener);
         floodBtn = new JButton("Flood Fill");
         floodBtn.addActionListener(actionListener);
         undoBtn = new JButton("Remover ultimo objeto");
         undoBtn.addActionListener(actionListener);
-        
 
         controls.add(saveBtn);
         controls.add(openBtn);
@@ -145,6 +146,7 @@ public class SwingPaint {
         controls.add(rotBtn);
         controls.add(escalaBtn);
         controls.add(reflexBtn);
+        controls.add(liangBtn);
         controls.add(cohenBtn);
         controls.add(floodBtn);
         controls.add(undoBtn);

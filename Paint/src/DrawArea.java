@@ -256,7 +256,6 @@ public class DrawArea extends JComponent implements MouseInputListener {
                 Retangulo.plot(o, g2);
                 break;
             case "dda":
-                System.out.println("alo");
                 DDA.plot(o, g2);
                 break;
             case "bresenham":
@@ -266,7 +265,6 @@ public class DrawArea extends JComponent implements MouseInputListener {
                 Circulo.plot(o, g2);
                 break;
             case "reta":
-                System.out.println("RETA-------------");
                 DDA.plot(o, g2);
                 break;
         }
@@ -421,12 +419,13 @@ public class DrawArea extends JComponent implements MouseInputListener {
     public void cohen(MouseEvent e) {
     }
 
-
-
-
+    
     public void flood(MouseEvent e) {
         current_point = new Point(e.getX(), e.getY());
-        Floodfill.plot(current_point, g2);
+        int cor_preenche = -16777215; // preto
+        int cor_antiga = -1; // branco
+        Floodfill.plot(current_point, g2,image,cor_preenche,cor_antiga);
+        repaint();
     }
 
     //metodos mouseListener

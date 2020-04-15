@@ -15,7 +15,7 @@ import obj.Objeto;
  */
 public class Liang {
 
-    public static ArrayList<Objeto> objs_recotardo = new ArrayList<Objeto>();
+    public static ArrayList<Objeto> objs_recortado = new ArrayList<Objeto>();
 
     public static ArrayList<Objeto> objetosliang;
     static double u1 = 0, u2 = 1.0;
@@ -23,12 +23,12 @@ public class Liang {
     public static ArrayList<Objeto> liangstart(Point old_point, Point current_point, ArrayList<Objeto> objetos) {
         Liang.objetosliang = objetos;
         liang(old_point, current_point);
-        return objs_recotardo;
+        return objs_recortado;
     }
 
     public static void checkObs_recorte() {
         System.out.println("[DATA] Objetos recortados existentes:");
-        for (Objeto o : objs_recotardo) {
+        for (Objeto o : objs_recortado) {
             System.out.println(o.getNome() + " - operação: " + o.getOp() + " - pontos :");
             ArrayList<Point> pontos = o.getPontos();
             for (Point p : pontos) {
@@ -41,7 +41,7 @@ public class Liang {
         String nome = tipo + " ";
         Objeto d = new Objeto(p, c, nome);
 
-        objs_recotardo.add(d);
+        objs_recortado.add(d);
         System.out.println("[INFO] Salvo objeto recortado " + nome + " do tipo " + c + "com pontos: ");
         for (Point i : p) {
             System.out.println("p1: " + i.x + "e p2: " + i.y);
@@ -75,10 +75,28 @@ public class Liang {
 
     public static void liang(Point p1, Point p2) {
         String c = "reta";
-        int xjmin = p1.x;
-        int xjmax = p2.x;
-        int yjmin = p1.y;
-        int yjmax = p2.y;
+
+        int xjmin = 0;
+        int xjmax = 0;
+        int yjmin = 0;
+        int yjmax = 0;
+
+        if(p1.x > p2.x){
+          xjmin = p2.x;
+          xjmax = p1.x;
+        } else {
+          xjmin = p1.x;
+          xjmax = p2.x;
+        }
+
+        if(p1.y > p2.y){
+          yjmin = p2.y;
+          yjmax = p1.y;
+        } else {
+          yjmin = p1.y;
+          yjmax = p2.y;
+        }
+
         for (int i = 0; i < objetosliang.size(); i++) {
             u1 = 0;
             u2 = 1;

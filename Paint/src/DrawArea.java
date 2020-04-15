@@ -33,7 +33,7 @@ import clipping.*;
 public class DrawArea extends JComponent implements MouseInputListener {
 
     ArrayList<Objeto> objetos;
-    ArrayList<Objeto> objs_recotardo;
+    ArrayList<Objeto> objs_recortado;
     // Image in which we're going to draw
     private Image image;
     // Graphics2D object ==> used to draw on
@@ -53,7 +53,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
         num_objetos = 0;
         objetos = new ArrayList<Objeto>();
         num_objetos_recortado = 0;
-        objs_recotardo = new ArrayList<Objeto>();
+        objs_recortado = new ArrayList<Objeto>();
     }
 
     protected void paintComponent(Graphics g) {
@@ -78,7 +78,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
     // now we create exposed methods
     public void clear() {
         objetos.clear();
-        objs_recotardo.clear();
+        objs_recortado.clear();
         num_objetos = 0;
         num_objetos_recortado = 0;
         clearCanvas();
@@ -231,7 +231,11 @@ public class DrawArea extends JComponent implements MouseInputListener {
                 Circulo.plot(o, g2);
             } else if (c.equals("liang")) {
                 System.out.println("[DEBUG]   Liang call with [x1]" + old_point.x + "[y1] "+ old_point.y + "[x2]" +current_point.x + "[y2]"+ current_point.y);
-                objs_recotardo = Liang.liangstart(old_point, current_point, objetos);
+                objs_recortado = Liang.liangstart(old_point, current_point, objetos);
+                redraw_recortados();
+            } else if (c.equals("cohen")) {
+                System.out.println("[DEBUG]   Cohen call with [x1]" + old_point.x + "[y1] "+ old_point.y + "[x2]" +current_point.x + "[y2]"+ current_point.y);
+                objs_recortado = Cohen.cohenstart(old_point, current_point, objetos);
                 redraw_recortados();
             }
             clicked = false;
@@ -275,10 +279,10 @@ public class DrawArea extends JComponent implements MouseInputListener {
         }
         repaint();
     }
-    
+
     public void redraw_recortados() {
         clearCanvas();
-        for (Objeto o : objs_recotardo) {
+        for (Objeto o : objs_recortado) {
             this.draw(o);
         }
         repaint();
@@ -419,7 +423,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
 
 
 
-    
+
     public void flood(MouseEvent e) {
         current_point = new Point(e.getX(), e.getY());
         Floodfill.plot(current_point, g2);

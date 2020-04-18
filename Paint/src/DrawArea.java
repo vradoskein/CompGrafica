@@ -176,8 +176,13 @@ public class DrawArea extends JComponent implements MouseInputListener {
 
 
     public void undo() {
-        objetos.remove(objetos.size() - 1);
-        redraw();
+        if(objetos.size() > 0){
+            objetos.remove(objetos.size() - 1);
+            redraw();
+        }else {
+            System.out.println("[ERROR] No objects to remove");
+        }
+        
     }
 
     void checkObs() {

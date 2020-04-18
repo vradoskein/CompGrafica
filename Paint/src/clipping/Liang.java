@@ -204,32 +204,6 @@ public static void liangclipset() {
                 dy = y2 - y1;
 
                 liangclipset();
-                /*if (clipset(-dx, x1 - xjmin)) {
-                    if (clipset(dx, xjmax - x1)) {
-                        if (clipset(-dy, y1 - yjmin)) {
-                            if (clipset(dy, yjmax - y1)) {
-                                if (u2 < 1.0) {
-                                    x2 = x1 + u2 * dx;
-                                    y2 = y1 + u2 * dy;
-                                }
-                                if (u1 > 0.0) {
-                                    x1 = x1 + u1 * dx;
-                                    y1 = y1 + u1 * dy;
-                                }
-                                ArrayList<Point> pontos_recorte = new ArrayList<Point>();
-                                Point p1_recorte = new Point(Math.round((float) x1), (int) Math.round(y1));
-                                Point p2_recorte = new Point(Math.round((float) x2), (int) Math.round(y2));
-                                String nome = " Reta recortada ";
-                                pontos_recorte.add(p1_recorte);
-                                pontos_recorte.add(p2_recorte);
-
-                                saveAdd_recorte(pontos_recorte, c, nome);
-
-                            }
-                        }
-                    }
-
-                }*/
 
             } else if (objetosliang.get(i).getNome().contains("Retan")) {
                 Point pr1 = objetosliang.get(i).getPontos().get(0);

@@ -19,11 +19,13 @@ public class ParallelDDA extends Thread {
 
     Point p1, p2;
     Graphics2D g;
+    int id;
 
-    public ParallelDDA(Point pinicial, Point pfinal, Graphics2D g) {
+    public ParallelDDA(Point pinicial, Point pfinal, Graphics2D g, int id) {
         this.p1 = pinicial;
         this.p2 = pfinal;
         this.g = g;
+        this.id = id;
 
     }
     
@@ -57,5 +59,6 @@ public class ParallelDDA extends Thread {
             X += Xinc;
             Y += Yinc;
         }
+        System.out.println("[THREAD FINISHED]  [ID] : " +this.id);
     }
 }

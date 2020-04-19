@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Queue;
+import utilities.PixelMatrix;
 
 /**
  *
@@ -15,9 +16,10 @@ import java.util.Queue;
 public class Floodfill {
     
     static int widthg,heightg;
+    static final PixelMatrix pm = new PixelMatrix();
     
     public static void plot(Point p1, Graphics2D g, Image image , int cor_preenche, int cor_antiga) {
-        Image image2 = flood(convertToPixels(image),p1,cor_preenche,cor_antiga);
+        Image image2 = flood(pm.convertToPixels(image),p1,cor_preenche,cor_antiga);
         g.drawImage(image2, 0, 0, null);       
     }
     
@@ -51,7 +53,7 @@ public class Floodfill {
             Point novo = new Point(atual.x+1,atual.y);q.add(novo); // dir
             novo = new Point(atual.x-1,atual.y);q.add(novo); // esq
             novo = new Point(atual.x,atual.y+1);q.add(novo); // baixo (y cresce para baixo no nosso canvas)
-            novo = new Point(atual.x,atual.y-1);q.add(novo); // co,a
+            novo = new Point(atual.x,atual.y-1);q.add(novo); // cima
         }
       }       
    }
@@ -63,51 +65,12 @@ public class Floodfill {
 
         flood4Iterative(p1,cor_preenche,cor_antiga,m);
 
-        // preenchimento do vetor de pixels novo
-        int px[] = new int[width*height];
-        int k = 0;
-        for(int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++){
-                //System.out.println("COR:"+m[i][j]);
-                px[k++] = m[i][j];
-            }
-        }
+        // converte a matriz para um vetor de pixels
+        int px[] = pm.pixelMatrixToArray(m);
 
         // criacao da Imagem a partir do vetor de pixels
         BufferedImage image = new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
         image.setRGB(0, 0, width, height, px, 0, width);
         return image;
-    }
-    
-    public static int[][] convertToPixels(Image image) {
-        int width = image.getWidth(null);
-        int height = image.getHeight(null);
-        BufferedImage img = toBufferedImage(image);
-        int[][] matrix = new int[height][width];
-
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                matrix[row][col] = img.getRGB(col, row);
-            }
-        }
-       
-        return matrix;
-    }
-    
-    public static BufferedImage toBufferedImage(Image img) {
-        if (img instanceof BufferedImage) {
-            return (BufferedImage) img;
-        }
-
-        // Create a buffered image with transparency
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
-        // Draw the image on to the buffered image
-        Graphics2D bGr = bimage.createGraphics();
-        bGr.drawImage(img, 0, 0, null);
-        bGr.dispose();
-
-        // Return the buffered image
-        return bimage;
     }
 }

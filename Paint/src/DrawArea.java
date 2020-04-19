@@ -182,7 +182,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
         }else {
             System.out.println("[ERROR] No objects to remove");
         }
-        
+
     }
 
     void checkObs() {
@@ -242,6 +242,10 @@ public class DrawArea extends JComponent implements MouseInputListener {
                 System.out.println("[DEBUG]   Cohen call with [x1]" + old_point.x + "[y1] "+ old_point.y + "[x2]" +current_point.x + "[y2]"+ current_point.y);
                 objs_recortado = Cohen.cohenstart(old_point, current_point, objetos);
                 redraw_recortados();
+            } else if (c.equals("clipcirc")){
+                Point p1 = new Point(old_point.x, current_point.y);
+                Point p2 = new Point(current_point.x, old_point.y);
+                ClipCirc.clipcircstart(old_point,current_point,p1,p2,g2,image);
             }
             clicked = false;
         } else {
@@ -424,7 +428,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
     public void cohen(MouseEvent e) {
     }
 
-    
+
     public void flood(MouseEvent e) {
         current_point = new Point(e.getX(), e.getY());
         int cor_preenche = -16777215; // preto
@@ -445,6 +449,7 @@ public class DrawArea extends JComponent implements MouseInputListener {
             case "circ":
             case "liang":
             case "cohen":
+            case "clipcirc":
                 draw(e, getState());
                 break;
             case "flood":

@@ -16,7 +16,7 @@ public class SwingPaint {
 
     JButton clearBtn, blackBtn, floodBtn, saveBtn, openBtn, undoBtn;
     JButton retBtn, dotBtn, transBtn, rotBtn, escalaBtn, reflexBtn;
-    JButton ddaBtn, bresenhamBtn, circBtn, cohenBtn, liangBtn;
+    JButton ddaBtn, bresenhamBtn, circBtn, cohenBtn, liangBtn, clipCirc;
     DrawArea drawArea;
     ActionListener actionListener = new ActionListener() {
 
@@ -56,7 +56,10 @@ public class SwingPaint {
                 drawArea.setState("flood");
             } else if (e.getSource() == dotBtn) {
                 drawArea.setState("dot");
-            } else if (e.getSource() == undoBtn) {
+            } else if (e.getSource() == clipCirc) {
+                drawArea.setState("clipcirc");
+            }
+            else if (e.getSource() == undoBtn) {
                 drawArea.undo();
             }
         }
@@ -133,6 +136,8 @@ public class SwingPaint {
         floodBtn.addActionListener(actionListener);
         undoBtn = new JButton("Remover ultimo objeto");
         undoBtn.addActionListener(actionListener);
+        clipCirc = new JButton("Recorte circunferencia");
+        clipCirc.addActionListener(actionListener);
 
         controls.add(saveBtn);
         controls.add(openBtn);
@@ -142,6 +147,7 @@ public class SwingPaint {
         controls.add(ddaBtn);
         controls.add(bresenhamBtn);
         controls.add(circBtn);
+        controls.add(clipCirc);
         controls.add(transBtn);
         controls.add(rotBtn);
         controls.add(escalaBtn);

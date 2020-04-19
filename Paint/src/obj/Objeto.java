@@ -1,6 +1,5 @@
 package obj;
 
-
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author vradoskein
+ * @author pedro
  */
 public class Objeto {
 
@@ -24,13 +23,13 @@ public class Objeto {
         this.pontos = p;
         this.op = c;
         this.nome = nome;
-    }  
-    
-    public ArrayList<Point> getPontos(){
+    }
+
+    public ArrayList<Point> getPontos() {
         return this.pontos;
     }
-    
-    public void addPonto(Point p){
+
+    public void addPonto(Point p) {
         this.pontos.add(p);
     }
 

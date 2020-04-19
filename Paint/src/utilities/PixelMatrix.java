@@ -2,33 +2,31 @@ package utilities;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  *
  * @author bernardo6526
  */
 public class PixelMatrix {
-    
-    public static int[] pixelMatrixToArray(int[][] m){
+
+    // converts the pixel matrix to a singular array
+    public static int[] pixelMatrixToArray(int[][] m) {
         int width = m[0].length;
         int height = m.length;
-        
-        int px[] = new int[width*height];
+
+        int px[] = new int[width * height];
         int k = 0;
-        for(int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++){
-                //System.out.println("COR:"+m[i][j]);
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                // System.out.println("COR:"+m[i][j]);
                 px[k++] = m[i][j];
             }
         }
         return px;
     }
-    
+
+    // conver the image into a pixel matrix
     public static int[][] convertToPixels(Image image) {
         int width = image.getWidth(null);
         int height = image.getHeight(null);
@@ -40,10 +38,11 @@ public class PixelMatrix {
                 matrix[row][col] = img.getRGB(col, row);
             }
         }
-       
+
         return matrix;
     }
-    
+
+    // converts the matrix into an immage
     public static BufferedImage toBufferedImage(Image img) {
         if (img instanceof BufferedImage) {
             return (BufferedImage) img;

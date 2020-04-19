@@ -45,6 +45,7 @@ public class Cohen {
         return objs_recortado;
     }
 
+    // checks which objects will be clipped
     public static void checkObs_recorte() {
         System.out.println("[DATA] Objetos recortados existentes:");
         for (Objeto o : objs_recortado) {
@@ -56,6 +57,7 @@ public class Cohen {
         }
     }
 
+    // adds new clipped objects to the list
     public static Objeto saveAdd_recorte(ArrayList<Point> p, String c, String tipo) {
         String nome = tipo + " ";
         Objeto d = new Objeto(p, c, nome);
@@ -70,6 +72,7 @@ public class Cohen {
         return d;
     }
 
+    // generalizes the rectangle into 4 lines
     public static void retang_to_reta(ArrayList<Point> pr, int x) {
 
         if (x == 1) {
@@ -121,6 +124,7 @@ public class Cohen {
         return code;
     }
 
+    // sets up the clipping area
     public static void cohenPoints(Point p1, Point p2) {
         if (p1.x > p2.x) {
             x_max = p1.x;
@@ -138,6 +142,7 @@ public class Cohen {
         }
     }
 
+    // checks of the object should be clipped and sets up its new point coordinates
     public static void cohenLogic() {
         String c = "reta";
 
@@ -192,6 +197,7 @@ public class Cohen {
         }
     }
 
+    // handles each object and sets them up to be clipped
     public static void Cohen(Point p1, Point p2) {
         String c = "reta";
 
@@ -203,55 +209,31 @@ public class Cohen {
                 y2 = objetosCohen.get(i).getPontos().get(1).y;
 
                 cohenLogic();
-                /*boolean aceite = false, feito = false;
-
-                while (!feito) {
-                    byte c1, c2;
-                    c1 = computeCode(x1, y1);
-                    c2 = computeCode(x2, y2);
-                    if ((c1 | c2) == INSIDE) {
-                        aceite = true;
-                        feito = true;
-                    } else if ((c1 & c2) != INSIDE) {
-                        feito = true;
-                    } else {
-
-                        double xint = 0.0, yint = 0.0;
-                        final byte cfora = (c1 != INSIDE) ? c1 : c2;
-
-                        if ((cfora & LEFT) != 0) {
-                            xint = x_min;
-                            yint = y1 + (y2 - y1) * (x_min - x1) / (x2 - x1);
-                        } else if ((cfora & RIGHT) != 0) {
-                            xint = x_max;
-                            yint = y1 + (y2 - y1) * (x_max - x1) / (x2 - x1);
-                        } else if ((cfora & BOTTOM) != 0) {
-                            yint = y_max;
-                            xint = x1 + (x2 - x1) * (y_max - y1) / (y2 - y1);
-                        } else if ((cfora & TOP) != 0) {
-                            yint = y_min;
-                            xint = x1 + (x2 - x1) * (y_min - y1) / (y2 - y1);
-                        }
-
-                        if (c1 == cfora) {
-                            x1 = xint;
-                            y1 = yint;
-                        } else {
-                            x2 = xint;
-                            y2 = yint;
-                        }
-                    }
-                }
-                if (aceite) {
-                    ArrayList<Point> pontos_recorte = new ArrayList<Point>();
-                    Point p1_recorte = new Point(Math.round((float) x1), (int) Math.round(y1));
-                    Point p2_recorte = new Point(Math.round((float) x2), (int) Math.round(y2));
-                    String nome = " Reta recortada ";
-                    pontos_recorte.add(p1_recorte);
-                    pontos_recorte.add(p2_recorte);
-
-                    saveAdd_recorte(pontos_recorte, c, nome);
-                }*/
+                /*
+                 * boolean aceite = false, feito = false;
+                 * 
+                 * while (!feito) { byte c1, c2; c1 = computeCode(x1, y1); c2 = computeCode(x2,
+                 * y2); if ((c1 | c2) == INSIDE) { aceite = true; feito = true; } else if ((c1 &
+                 * c2) != INSIDE) { feito = true; } else {
+                 * 
+                 * double xint = 0.0, yint = 0.0; final byte cfora = (c1 != INSIDE) ? c1 : c2;
+                 * 
+                 * if ((cfora & LEFT) != 0) { xint = x_min; yint = y1 + (y2 - y1) * (x_min - x1)
+                 * / (x2 - x1); } else if ((cfora & RIGHT) != 0) { xint = x_max; yint = y1 + (y2
+                 * - y1) * (x_max - x1) / (x2 - x1); } else if ((cfora & BOTTOM) != 0) { yint =
+                 * y_max; xint = x1 + (x2 - x1) * (y_max - y1) / (y2 - y1); } else if ((cfora &
+                 * TOP) != 0) { yint = y_min; xint = x1 + (x2 - x1) * (y_min - y1) / (y2 - y1);
+                 * }
+                 * 
+                 * if (c1 == cfora) { x1 = xint; y1 = yint; } else { x2 = xint; y2 = yint; } } }
+                 * if (aceite) { ArrayList<Point> pontos_recorte = new ArrayList<Point>(); Point
+                 * p1_recorte = new Point(Math.round((float) x1), (int) Math.round(y1)); Point
+                 * p2_recorte = new Point(Math.round((float) x2), (int) Math.round(y2)); String
+                 * nome = " Reta recortada "; pontos_recorte.add(p1_recorte);
+                 * pontos_recorte.add(p2_recorte);
+                 * 
+                 * saveAdd_recorte(pontos_recorte, c, nome); }
+                 */
             } else if (objetosCohen.get(i).getNome().contains("Retan")) {
                 Point pr1 = objetosCohen.get(i).getPontos().get(0);
                 Point pr2 = objetosCohen.get(i).getPontos().get(1);
@@ -274,5 +256,5 @@ public class Cohen {
             } // fim do for
         }
     }
-    
+
 }

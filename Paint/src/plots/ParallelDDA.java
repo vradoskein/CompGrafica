@@ -15,6 +15,9 @@ import java.awt.geom.Line2D;
  *
  * @author vradoskein
  */
+
+// parallel version of the DDA algorithm
+//
 public class ParallelDDA extends Thread {
 
     Point p1, p2;
@@ -28,16 +31,17 @@ public class ParallelDDA extends Thread {
         this.id = id;
 
     }
-    
-    public Point getP1(){
+
+    public Point getP1() {
         return this.p1;
     }
-    public Point getP2(){
+
+    public Point getP2() {
         return this.p2;
     }
-    
+
     @Override
-    public void run(){
+    public void run() {
         g.setStroke(new BasicStroke(5));
         g.setPaint(Color.black);
 
@@ -59,6 +63,6 @@ public class ParallelDDA extends Thread {
             X += Xinc;
             Y += Yinc;
         }
-        System.out.println("[THREAD FINISHED]  [ID] : " +this.id);
+        System.out.println("[THREAD FINISHED]  [ID] : " + this.id);
     }
 }

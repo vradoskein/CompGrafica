@@ -1,4 +1,5 @@
 
+// main class
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -20,7 +21,9 @@ public class SwingPaint {
     DrawArea drawArea;
     ActionListener actionListener = new ActionListener() {
 
-        //add the buttons
+        /*
+         * handling button functionality
+         */
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == saveBtn) {
                 try {
@@ -58,17 +61,22 @@ public class SwingPaint {
                 drawArea.setState("dot");
             } else if (e.getSource() == clipCirc) {
                 drawArea.setState("clipcirc");
-            }
-            else if (e.getSource() == undoBtn) {
+            } else if (e.getSource() == undoBtn) {
                 drawArea.undo();
             }
         }
     };
 
+    /*
+     * main method, creates and shows the canvas and the buttons
+     */
     public static void main(String[] args) {
         new SwingPaint().show();
     }
 
+    /*
+     * creates the canvas and the buttons
+     */
     public void show() {
         // create main frame
         JFrame frame = new JFrame("Swing Paint");
@@ -86,12 +94,12 @@ public class SwingPaint {
 
         controls2.setLayout(new BoxLayout(controls2, BoxLayout.Y_AXIS));
 
-        //create panel
-        //createPanel(controls);
+        // create panel
+        // createPanel(controls);
         createPanel2(controls2);
 
         // add to content pane
-        //content.add(controls, BorderLayout.NORTH);
+        // content.add(controls, BorderLayout.NORTH);
         content.add(controls2, BorderLayout.WEST);
 
         frame.setSize(1600, 600);
@@ -103,6 +111,9 @@ public class SwingPaint {
         // Now you can try our Swing Paint !!! Enjoy :D
     }
 
+    /*
+     * handles button listeners and adds them to the control pane
+     */
     private void createPanel2(JPanel controls) {
         saveBtn = new JButton("Save");
         saveBtn.addActionListener(actionListener);

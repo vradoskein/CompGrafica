@@ -4,14 +4,14 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
 import obj.Objeto;
 
 /**
  *
  * @author Pedro
  */
+
+// handles DDA line ploting, base for the parallel DDA implementation
 public class DDA {
 
     static Point p1, p2, pmedio;
@@ -30,7 +30,7 @@ public class DDA {
         p2dividido = new Point((pmedio.x + p2.x) / 2, (pmedio.y + p2.y) / 2);
 
         System.out.println("[DDA PLOTING] [PONTO MEDIO] :" + pmedio);
-        //plot(p1, p2, g);
+        // plot(p1, p2, g);
 
         ParallelDDA tarefa1 = new ParallelDDA(p1, p1dividido, g, 1);
         ParallelDDA tarefa2 = new ParallelDDA(p1dividido, pmedio, g, 2);
@@ -54,7 +54,7 @@ public class DDA {
 
     }
 
-    //caso especifico para retangulo
+    // caso especifico para retangulo
     public static void plot(Point p1, Point p2, Graphics2D g) {
         g.setStroke(new BasicStroke(5));
         g.setPaint(Color.black);

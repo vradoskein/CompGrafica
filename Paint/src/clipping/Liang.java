@@ -43,6 +43,7 @@ public class Liang {
         return objs_recortado;
     }
 
+    // checks which objects will be clipped
     public static void checkObs_recorte() {
         System.out.println("[DATA] Objetos recortados existentes:");
         for (Objeto o : objs_recortado) {
@@ -54,6 +55,7 @@ public class Liang {
         }
     }
 
+    // adds new clipped objects to the list
     public static Objeto saveAdd_recorte(ArrayList<Point> p, String c, String tipo) {
         String nome = tipo + " ";
         Objeto d = new Objeto(p, c, nome);
@@ -68,6 +70,8 @@ public class Liang {
         return d;
     }
 
+    // checks if an object should be clipped or not (aka checks if its inside the
+    // area or not)
     public static boolean clipset(double p, double q) {
         double r = q / p;
 
@@ -89,6 +93,7 @@ public class Liang {
         return true;
     }
 
+    // generalizes the rectangle into 4 lines
     public static void retang_to_reta(ArrayList<Point> pr, int x) {
 
         if (x == 1) {
@@ -130,8 +135,10 @@ public class Liang {
 
     }
 
+    // checks if each line should be clipped and sets the new points
     public static void liangclipset() {
-        System.out.println("[DEBUG] liangclipset [xjmin] " + xjmin + "[xjmax] " + xjmax + "[yjmin] " + yjmin + "[yjmax] " + yjmax);
+        System.out.println(
+                "[DEBUG] liangclipset [xjmin] " + xjmin + "[xjmax] " + xjmax + "[yjmin] " + yjmin + "[yjmax] " + yjmax);
         String c = "reta";
         if (clipset(-dx, x1 - xjmin)) {
             if (clipset(dx, xjmax - x1)) {
@@ -160,6 +167,7 @@ public class Liang {
         }
     }
 
+    // sets up the clipping area
     public static void liangpoints(Point p1, Point p2) {
         xjmin = 0;
         xjmax = 0;
@@ -184,6 +192,7 @@ public class Liang {
 
     }
 
+    // handles each object and sets them up to be clipped
     public static void liang(Point p1, Point p2) {
 
         for (Objeto o : objetosliang) {
@@ -221,8 +230,8 @@ public class Liang {
                 liangclipset();
                 retang_to_reta(objetosliang.get(i).getPontos(), 3);
                 liangclipset();
-                retang_to_reta(objetosliang.get(i).getPontos(), 4);//reta direita q ta bugada
-                liangclipset(); 
+                retang_to_reta(objetosliang.get(i).getPontos(), 4);// reta direita q ta bugada
+                liangclipset();
             }
         }
         checkObs_recorte();

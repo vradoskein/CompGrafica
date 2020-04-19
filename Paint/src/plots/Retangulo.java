@@ -17,34 +17,21 @@ public class Retangulo {
         p2 = o.getPontos().get(1);
         p3 = o.getPontos().get(2);
         p4 = o.getPontos().get(3);
-        
-        System.out.println(
-                "[RETANGULO CLASS BEFORE]" + "[P1] :" + p1 + "[P2] :" + p2 + "[P3] :" + p3 + "[P4] :" + p4);
 
-        /*if(p1.y > p3.y ){
-            aux = p1;
-            p1 = p3;
-            p3 = aux;
-        }
-        
-        if(p2.y < p4.y){
-            aux = p2;
-            p2 = p4;
-            p4 = aux;
-                    
-        }*/
-        
-        
+        System.out.println("[RETANGULO CLASS BEFORE]" + "[P1] :" + p1 + "[P2] :" + p2 + "[P3] :" + p3 + "[P4] :" + p4);
 
-        System.out.println(
-                "[RETANGULO CLASS AFTER]" + "[P1] :" + p1 + "[P2] :" + p2 + "[P3] :" + p3 + "[P4] :" + p4);
+        /*
+         * if(p1.y > p3.y ){ aux = p1; p1 = p3; p3 = aux; }
+         * 
+         * if(p2.y < p4.y){ aux = p2; p2 = p4; p4 = aux; }
+         */
 
-        DDA.plot(p1, p3, g);//
+        System.out.println("[RETANGULO CLASS AFTER]" + "[P1] :" + p1 + "[P2] :" + p2 + "[P3] :" + p3 + "[P4] :" + p4);
 
+        // plots the rectangle 1 line at a time, using the DDA algorithm
+        DDA.plot(p1, p3, g);
         DDA.plot(p3, p2, g);
-
-        DDA.plot(p2, p4, g);//
-
+        DDA.plot(p2, p4, g);
         DDA.plot(p4, p1, g);
     }
 }

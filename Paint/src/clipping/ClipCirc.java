@@ -3,10 +3,7 @@ package clipping;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.util.LinkedList;
-import java.util.Queue;
 import utilities.PixelMatrix;
 
 /**
@@ -17,7 +14,8 @@ public class ClipCirc {
 
     static final PixelMatrix pm = new PixelMatrix();
 
-    public static void clipcircstart(Point p1, Point p2, Point p3, Point p4, Graphics2D g, Image img){
+    // clipping algorithm for circles
+    public static void clipcircstart(Point p1, Point p2, Point p3, Point p4, Graphics2D g, Image img) {
         int[] x = new int[4];
         int[] y = new int[4];
 
@@ -31,23 +29,23 @@ public class ClipCirc {
         y[2] = p3.y;
         y[3] = p4.y;
 
-        int x_max=x[0],y_max=y[0];
-        int x_min=x[0],y_min=y[0];
+        int x_max = x[0], y_max = y[0];
+        int x_min = x[0], y_min = y[0];
 
-        //compara todos os pontos para achar os limites da janela de recorte
-        for(int i=1;i<4;i++){
-            if(x[i] > x_max){
+        // compara todos os pontos para achar os limites da janela de recorte
+        for (int i = 1; i < 4; i++) {
+            if (x[i] > x_max) {
                 x_max = x[i];
             }
-            if(y[i] > y_max){
+            if (y[i] > y_max) {
                 y_max = y[i];
             }
 
-            if(x[i] < x_min){
+            if (x[i] < x_min) {
                 x_min = x[i];
             }
 
-            if(y[i] < y_min){
+            if (y[i] < y_min) {
                 y_min = y[i];
             }
         }
@@ -56,22 +54,22 @@ public class ClipCirc {
         int width = m[0].length;
         int height = m.length;
 
-        //pinta de branco tudo que estiver fora da janela
-        for(int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++){
-                if((i > y_min && i < y_max) && (j > x_min && j < x_max)){ //if dentro da janela
+        // pinta de branco tudo que estiver fora da janela
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if ((i > y_min && i < y_max) && (j > x_min && j < x_max)) { // if dentro da janela
                     continue;
-                }else{
+                } else {
                     m[i][j] = -1;
                 }
             }
         }
 
-        //converte a matriz de pixels para um vetor de pixels
+        // converte a matriz de pixels para um vetor de pixels
         int px[] = pm.pixelMatrixToArray(m);
 
         // criacao da Imagem a partir do vetor de pixels
-        BufferedImage image = new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         image.setRGB(0, 0, width, height, px, 0, width);
         g.drawImage(image, 0, 0, null);
     }

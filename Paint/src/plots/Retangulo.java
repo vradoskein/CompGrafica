@@ -21,7 +21,7 @@ public class Retangulo {
         System.out.println(
                 "[RETANGULO CLASS BEFORE]" + "[P1] :" + p1 + "[P2] :" + p2 + "[P3] :" + p3 + "[P4] :" + p4);
 
-        if(p1.y > p3.y ){
+        /*if(p1.y > p3.y ){
             aux = p1;
             p1 = p3;
             p3 = aux;
@@ -32,9 +32,8 @@ public class Retangulo {
             p2 = p4;
             p4 = aux;
                     
-        }
+        }*/
         
-
         
 
         System.out.println(
@@ -42,10 +41,10 @@ public class Retangulo {
 
         DDA.plot(p1, p3, g);//
 
-        DDA.plot(p2, p3, g);
+        DDA.plot(p3, p2, g);
 
         DDA.plot(p2, p4, g);//
 
-        DDA.plot(p1, p4, g);
+        DDA.plot(p4, p1, g);
     }
 }

@@ -20,6 +20,10 @@ O projeto esta estruturado da seguinte forma:
 
      * Pasta tranforms
         * Operações de translação, rotação, reflexão e escala para os objetos
+        
+## Application
+
+Inside /Paint/dist is a .JAR file. Just execute it.
 
 ## Installation Linux and MacOS
 

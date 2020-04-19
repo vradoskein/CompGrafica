@@ -1,4 +1,4 @@
-# PaintBrush
+# PaintBrush [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 Trabalho realizado na disciplina Computação Gráfica 2020-1
 
@@ -21,9 +21,28 @@ O projeto esta estruturado da seguinte forma:
      * Pasta tranforms
         * Operações de translação, rotação, reflexão e escala para os objetos
 
-## Installation
+## Installation Linux and MacOS
 
-TODO
+Clone the project with 
+
+```bash
+git clone git@github.com:vradoskein/CompGrafica.git
+```
+
+Go to /CompGrafica/Paint/src
+```bash
+cd CompGrafica/Paint/src
+```
+
+Use the following line to compile
+```bash
+javac DrawArea.java SwingPaint.java clipping/*.java plots/*.java obj/*.java transforms/*.java
+```
+
+And run with 
+```bash
+java SwingPaint
+```
 
 ## Usage
 
@@ -74,4 +93,5 @@ Pull requests são bem-vindos.
 
 
 ## License
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+

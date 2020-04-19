@@ -107,7 +107,7 @@ public class Liang {
 
             dx = x2 - x1;
             dy = y2 - y1;
-        
+
         } else if (x == 3) { // certo
             x1 = pr.get(0).x;
             x2 = pr.get(3).x;
@@ -116,8 +116,8 @@ public class Liang {
 
             dx = x2 - x1;
             dy = y2 - y1;
-       
-        } else if (x == 4) {
+
+        } else if (x == 4) {// reta da direita q ta bugando
             x1 = pr.get(1).x;
             x2 = pr.get(3).x;
             y1 = pr.get(1).y;
@@ -125,13 +125,12 @@ public class Liang {
 
             dx = x2 - x1;
             dy = y2 - y1;
-        
+
         }
-    
 
-}
+    }
 
-public static void liangclipset() {
+    public static void liangclipset() {
         System.out.println("[DEBUG] liangclipset [xjmin] " + xjmin + "[xjmax] " + xjmax + "[yjmin] " + yjmin + "[yjmax] " + yjmax);
         String c = "reta";
         if (clipset(-dx, x1 - xjmin)) {
@@ -222,8 +221,8 @@ public static void liangclipset() {
                 liangclipset();
                 retang_to_reta(objetosliang.get(i).getPontos(), 3);
                 liangclipset();
-                retang_to_reta(objetosliang.get(i).getPontos(), 4);
-                liangclipset();
+                retang_to_reta(objetosliang.get(i).getPontos(), 4);//reta direita q ta bugada
+                liangclipset(); 
             }
         }
         checkObs_recorte();
